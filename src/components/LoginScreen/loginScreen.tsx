@@ -6,6 +6,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Image,
 } from "react-native";
 
 export function LoginScreen() {
@@ -17,6 +18,8 @@ export function LoginScreen() {
         style={styles.backgroundImage}
       >
         <View>
+          <Image source={require("../../assets/backgrounds/Logo.png")} style={styles.logo}></Image>
+
           <TextInput style={styles.userInput}></TextInput>
           <Text style={styles.labelsInput}>Usuário</Text>
 
@@ -47,14 +50,21 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
   },
+  logo: {
+    width: "50%",
+    height: "14%",
+    alignSelf: "center",
+    marginTop: "25%",
+    resizeMode: "center",
+  },
   userInput: {
     backgroundColor: "#D9D9D9",
-    marginTop: 159,
+    marginTop: "15%",
     marginLeft: "auto",
     marginRight: "auto",
     borderRadius: 10,
     width: "80%",
-    height: 79,
+    height: "11.5%",
     borderColor: "#ACACAC",
     borderWidth: 1,
     paddingLeft: 14,
@@ -66,17 +76,17 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: 18,
     fontWeight: "900",
-    marginTop: -75,
-    marginLeft: 48,
+    marginTop: -74,
+    marginLeft: 55,
   },
   passwordInput: {
     backgroundColor: "#D9D9D9",
-    marginTop: 81,
+    marginTop: "20%",
     marginLeft: "auto",
     marginRight: "auto",
     borderRadius: 10,
     width: "80%",
-    height: 79,
+    height: "11.5%",
     borderColor: "#ACACAC",
     borderWidth: 1,
     paddingLeft: 14,
@@ -86,11 +96,11 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#D9D9D9",
-    marginTop: 87,
+    marginTop: "24%",
     marginLeft: "auto",
     marginRight: "auto",
-    width: "35%",
-    height: 59,
+    width: "32%",
+    height: "8%",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -107,7 +117,7 @@ const styles = StyleSheet.create({
     height: 40,
     marginLeft: "auto",
     marginRight: "auto",
-    marginTop: 31,
+    marginTop: "10%",
     justifyContent: "center",
     alignItems: "center",
   },
