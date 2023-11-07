@@ -1,10 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import { LoginScreen } from "./src/components/LoginScreen/loginScreen";
+import { ProfileScreen } from "./src/components/ProfileScreen/profileScreen";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <LoginScreen />
+      <ProfileScreen/>
     </View>
   );
 }
