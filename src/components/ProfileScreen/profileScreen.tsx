@@ -1,29 +1,34 @@
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native"
+import { StyleSheet, View, Image, Text, TouchableOpacity, ImageBackground } from "react-native"
 
 export function ProfileScreen() {
   return (
     <View style={styles.container}>
-      <View style={styles.boxProfile}>
-        <Image
-          style={styles.picture}
-          source={require('../../assets/backgrounds/Ellipse1.png')}
-        />
-        <Text style={styles.fullName}>Leonardo Mendes</Text>
-        <Text style={styles.firstName}>Leonardo</Text>
-      </View>
+      <ImageBackground
+        source={require('../../assets/backgrounds/Rectangle1.png')}
+        style={styles.backgroundImage}
+      >
+        <View style={styles.boxProfile}>
+          <Image
+            style={styles.picture}
+            source={require('../../assets/backgrounds/Ellipse1.png')}
+          />
+          <Text style={styles.fullName}>Leonardo Mendes</Text>
+          <Text style={styles.firstName}>Leonardo</Text>
+        </View>
 
-      <View style={styles.boxContact}>
-        <Text style={styles.contact}>Contato</Text>
-        <Text style={styles.number}>88 9 96647341</Text>
-        <Text style={styles.email}>mendes.leonardo@academico.com</Text>
-      </View>
+        <View style={styles.boxContact}>
+          <Text style={styles.contact}>Contato</Text>
+          <Text style={styles.number}>88 9 96647341</Text>
+          <Text style={styles.email}>mendes.leonardo@academico.com</Text>
+        </View>
 
-      <TouchableOpacity style={styles.buttonFavorite}>
-        <Text style={styles.favorite}>Favoritos</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonParticipating}>
-        <Text style={styles.participating}>Participando</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonFavorite}>
+          <Text style={styles.favorite}>Favoritos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonParticipating}>
+          <Text style={styles.participating}>Participando</Text>
+        </TouchableOpacity>
+      </ImageBackground>
 
     </View>
   )
@@ -32,12 +37,15 @@ export function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: 'black'
+    margin: 0,
+    justifyContent: "center",
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
   },
   boxProfile: {
+    marginTop: 50,
     alignItems: 'center',
   },
   picture: {
@@ -56,7 +64,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   boxContact: {
-    marginTop: 20
+    marginTop: 20,
+    marginLeft: 50
   },
   contact: {
     color: '#fff',
@@ -79,7 +88,8 @@ const styles = StyleSheet.create({
     borderBlockColor: '#000',
     padding: 5,
     marginTop: 80,
-    marginRight: 180
+    marginRight: 180,
+    marginLeft: 50
   },
   favorite: {
     color: '#003465',
@@ -97,6 +107,7 @@ const styles = StyleSheet.create({
     borderBlockColor: '#000',
     padding: 5,
     marginTop: 10,
-    marginRight: 130
+    marginRight: 130,
+    marginLeft: 50
   }
 })
