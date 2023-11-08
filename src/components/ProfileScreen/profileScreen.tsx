@@ -11,6 +11,12 @@ export function ProfileScreen() {
         <Text style={styles.fullName}>Leonardo Mendes</Text>
         <Text style={styles.firstName}>Leonardo</Text>
       </View>
+
+      <View style={styles.boxContact}>
+        <Text style={styles.contact}>Contato</Text>
+        <Text style={styles.number}>88 9 96647341</Text>
+        <Text style={styles.email}>mendes.leonardo@academico.com</Text>
+      </View>
     </View>
   )
 }
@@ -24,11 +30,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'black'
   },
   boxProfile: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   picture: {
     width: 171,
-    height: 171
+    height: 171,
+    marginBottom: 10
   },
   fullName: {
     color: '#fff',
@@ -39,5 +46,23 @@ const styles = StyleSheet.create({
     color: '#DBBCBC',
     fontSize: 22,
     fontWeight: '400',
+  },
+  boxContact: {
+    marginTop: 20
+  },
+  contact: {
+    color: '#fff',
+    fontSize: 32,
+    fontWeight: '700'
+  },
+  number: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '400'
+  },
+  email: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '400'
   }
 })
