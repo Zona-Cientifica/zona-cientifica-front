@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Text } from "react-native"
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native"
 
 export function ProfileScreen() {
   return (
@@ -17,6 +17,14 @@ export function ProfileScreen() {
         <Text style={styles.number}>88 9 96647341</Text>
         <Text style={styles.email}>mendes.leonardo@academico.com</Text>
       </View>
+
+      <TouchableOpacity style={styles.buttonFavorite}>
+        <Text style={styles.favorite}>Favoritos</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.buttonParticipating}>
+        <Text style={styles.participating}>Participando</Text>
+      </TouchableOpacity>
+
     </View>
   )
 }
@@ -64,5 +72,31 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     fontWeight: '400'
+  },
+  buttonFavorite: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    borderBlockColor: '#000',
+    padding: 5,
+    marginTop: 80,
+    marginRight: 180
+  },
+  favorite: {
+    color: '#003465',
+    fontSize: 32,
+    fontWeight: '700'
+  },
+  participating: {
+    color: '#003465',
+    fontSize: 32,
+    fontWeight: '700'
+  },
+  buttonParticipating: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    borderBlockColor: '#000',
+    padding: 5,
+    marginTop: 10,
+    marginRight: 130
   }
 })
