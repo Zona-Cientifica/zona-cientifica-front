@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, View, Image, Text, TextInput } from "react-native";
+import { ImageBackground, StyleSheet, View, Image, Text, TextInput, TouchableOpacity } from "react-native";
 
 export function EditProfileScreen(){
   return(
@@ -38,6 +38,15 @@ export function EditProfileScreen(){
             placeholderTextColor={'#000'}
           />
         </View>
+
+        <View style={styles.boxButton}>
+          <TouchableOpacity style={styles.buttonSave}>
+            <Image 
+              source={require('../../assets/backgrounds/check-circle.png')}
+              style={styles.imgSave}
+            />
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
     </View>
   )
@@ -67,14 +76,17 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 32,
     fontWeight: '700',
-    padding: '2%',
+    paddingLeft: '1%',
+    paddingRight: '1%',
+    width: '70%', 
     marginBottom: '3%'
   },
   inputName: {
     backgroundColor: '#D9D9D9',
     fontSize: 22,
     fontWeight: '400',
-    padding: 2
+    padding: '2%',
+    width: '28%'
   },
   contact: {
     color: '#000',
@@ -91,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D9D9D9',
     fontSize: 20,
     fontWeight: '400',
-    padding: 1,
+    padding: "1%",
     marginTop: '2%',
     marginBottom: '3%',
     width: '35%'
@@ -100,7 +112,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#D9D9D9',
     fontSize: 20,
     fontWeight: '400',
-    padding: 1,
+    padding: '1%',
     width: '81%'
+  },
+  boxButton: {
+    alignItems: 'center',
+    marginTop: '45%'
+  },
+  buttonSave: {
+    alignItems: 'center',
+    backgroundColor: '#C4C4C4',
+    width: '28%',
+    padding: '1%',
+    borderRadius: 10,
+    borderColor: '#000',
+    borderWidth: 1
+  },
+  imgSave: {
+    width: 100,
+    height: 30
   }
 })
