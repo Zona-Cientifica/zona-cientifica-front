@@ -6,7 +6,7 @@ import { EditProfileScreen } from "./src/components/EditProfileScreen/editProfil
 export default function App() {
   return (
     <View style={styles.container}>
-      <EditProfileScreen/>
+      <ProfileScreen/>
     </View>
   );
 }

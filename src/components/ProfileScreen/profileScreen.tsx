@@ -22,6 +22,7 @@ export function ProfileScreen() {
             source={require('../../assets/backgrounds/edit.png')}
           />
         </TouchableOpacity>
+
         <View style={styles.boxContact}>
           <Text style={styles.contact}>Contato</Text>
           <Text style={styles.number}>88 9 96647341</Text>
@@ -51,13 +52,13 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   boxProfile: {
-    marginTop: 50,
+    marginTop: '15%',
     alignItems: 'center',
   },
   picture: {
     width: 171,
     height: 171,
-    marginBottom: 10
+    marginBottom: '2%'
   },
   fullName: {
     color: '#fff',
@@ -70,8 +71,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   boxContact: {
-    marginTop: -20,
-    marginLeft: 50
+    marginTop: '-5%',
+    marginLeft: '10%'
   },
   contact: {
     color: '#fff',
@@ -93,10 +94,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: '#000',
     borderWidth: 1,
-    padding: 5,
-    marginTop: 70,
-    marginRight: 180,
-    marginLeft: 50,
+    padding: '1%',
+    marginTop: '20%',
+    width: '38%',
+    marginLeft: '10%',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -115,10 +116,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: '#000',
     borderWidth: 1,
-    padding: 5,
-    marginTop: 10,
-    marginRight: 130,
-    marginLeft: 50,
+    padding: '1%',
+    marginTop: '3%',
+    width: '50%',
+    marginLeft: '10%',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -131,11 +132,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#000',
     borderWidth: 1,
-    width: 45,
-    height: 45,
+    width: '11%',
+    height: '5%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 330,
-    marginTop: -10
+    marginLeft: '85%',
+    marginTop: '-2%'
   }
 })
