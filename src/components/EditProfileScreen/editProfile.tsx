@@ -23,6 +23,21 @@ export function EditProfileScreen(){
             placeholderTextColor={'#000'}
           />
         </View>
+
+        <Text style={styles.contact}>Contato</Text>
+
+        <View style={styles.boxContact}>
+          <TextInput 
+            style={styles.inputNumber}
+            placeholder="88 9 96647341"
+            placeholderTextColor={'#000'}
+          />
+          <TextInput 
+            style={styles.inputEmail}
+            placeholder="mendes.leonardo@academico.com"
+            placeholderTextColor={'#000'}
+          />
+        </View>
       </ImageBackground>
     </View>
   )
@@ -60,5 +75,32 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '400',
     padding: 2
+  },
+  contact: {
+    color: '#000',
+    fontSize: 23,
+    fontWeight: '700',
+    marginTop: '10%',
+    marginLeft: '10%'
+  },
+  boxContact: {
+    marginTop: '2%',
+    alignItems: 'center'
+  },
+  inputNumber: {
+    backgroundColor: '#D9D9D9',
+    fontSize: 20,
+    fontWeight: '400',
+    padding: 1,
+    marginTop: '2%',
+    marginBottom: '3%',
+    width: '35%'
+  },
+  inputEmail: {
+    backgroundColor: '#D9D9D9',
+    fontSize: 20,
+    fontWeight: '400',
+    padding: 1,
+    width: '81%'
   }
 })
