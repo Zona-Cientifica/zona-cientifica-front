@@ -83,13 +83,16 @@ const styles = StyleSheet.create({
     fontWeight: '400'
   },
   buttonFavorite: {
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(217, 217, 217, 0.20);',
     borderRadius: 20,
-    borderBlockColor: '#000',
+    borderColor: '#000',
+    borderWidth: 1,
     padding: 5,
     marginTop: 80,
     marginRight: 180,
-    marginLeft: 50
+    marginLeft: 50,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   favorite: {
     color: '#003465',
@@ -102,12 +105,15 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   buttonParticipating: {
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(217, 217, 217, 0.20);',
     borderRadius: 20,
-    borderBlockColor: '#000',
+    borderColor: '#000',
+    borderWidth: 1,
     padding: 5,
     marginTop: 10,
     marginRight: 130,
-    marginLeft: 50
+    marginLeft: 50,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
