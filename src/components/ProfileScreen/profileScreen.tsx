@@ -16,6 +16,12 @@ export function ProfileScreen() {
           <Text style={styles.firstName}>Leonardo</Text>
         </View>
 
+        <TouchableOpacity style={styles.buttonEdit}>
+          <Image
+            style = {styles.edit}
+            source={require('../../assets/backgrounds/edit.png')}
+          />
+        </TouchableOpacity>
         <View style={styles.boxContact}>
           <Text style={styles.contact}>Contato</Text>
           <Text style={styles.number}>88 9 96647341</Text>
@@ -64,7 +70,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   boxContact: {
-    marginTop: 20,
+    marginTop: -20,
     marginLeft: 50
   },
   contact: {
@@ -88,7 +94,7 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     borderWidth: 1,
     padding: 5,
-    marginTop: 80,
+    marginTop: 70,
     marginRight: 180,
     marginLeft: 50,
     alignItems: 'center',
@@ -115,5 +121,21 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  edit: {
+    width: 30,
+    height: 30,
+  },
+  buttonEdit: {
+    backgroundColor: 'rgba(217, 217, 217, 0.20)',
+    borderRadius: 10,
+    borderColor: '#000',
+    borderWidth: 1,
+    width: 45,
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 330,
+    marginTop: -10
   }
 })
