@@ -1,13 +1,11 @@
-import { StyleSheet, View } from "react-native";
-import { LoginScreen } from "./src/components/LoginScreen/loginScreen";
-import { ProfileScreen } from "./src/components/ProfileScreen/profileScreen";
-import { EditProfileScreen } from "./src/components/EditProfileScreen/editProfile";
+import { StatusBar, StyleSheet, View } from "react-native";
 import { FavoritesScreen } from "./src/components/FavoritesScreen/favoritesScreen";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <FavoritesScreen/>
+      <StatusBar translucent={true} backgroundColor={"transparent"} />
+      <FavoritesScreen />
     </View>
   );
 }
