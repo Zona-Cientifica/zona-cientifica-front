@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
   picture: {
     width: 171,
     height: 171,
-    marginBottom: '2%'
+    marginBottom: '2%',
+    borderRadius: 100,
   },
   fullName: {
     color: '#fff',
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: '1%',
     marginTop: '20%',
-    width: '38%',
+    width: 150,
     marginLeft: '10%',
     alignItems: 'center',
     justifyContent: 'center'
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: '1%',
     marginTop: '3%',
-    width: '50%',
+    width: 200,
     marginLeft: '10%',
     alignItems: 'center',
     justifyContent: 'center'
@@ -132,8 +133,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#000',
     borderWidth: 1,
-    width: '11%',
-    height: '5%',
+    width: 45,
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: '85%',
