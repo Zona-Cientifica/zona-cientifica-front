@@ -1,5 +1,5 @@
 import { ImageBackground, StyleSheet, View, Text, FlatList } from "react-native";
-import { Card } from "../Card/card";
+import { Card } from "../../components/Card/card";
 
 const array = [
 {
