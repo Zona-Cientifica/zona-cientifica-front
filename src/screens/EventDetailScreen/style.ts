@@ -33,8 +33,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         margin: 20
     },
-    local: {
-        flexDirection: 'row'
+    subContainer: {
+        flexDirection: 'row',
+        justifyContent: "center",
+        gap: 10
     },
     eventImage: {
         marginBottom: 17,
