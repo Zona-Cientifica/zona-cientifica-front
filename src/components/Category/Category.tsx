@@ -1,23 +1,25 @@
-import { View, Text, ImageBackground } from 'react-native';
-import styles from './style';
+import { View, Text, Image } from "react-native";
+import styles from "./style";
 
 type Category = {
-    name: string,
-    picture: string
-}
+  name: string;
+  picture: string;
+};
 
 type Props = {
-    category: Category
-}
+  category: Category;
+};
 
-export default function Category({category}:Props){
-    return (
-        <>
-            <View style={styles.categoryCard}>
-                <ImageBackground source={{uri: category.picture}} style={styles.backgroundImage}>
-                    <Text style={styles.name}>{category.name}</Text>
-                </ImageBackground>
-            </View>
-        </>
-    )
+export default function Category({ category }: Props) {
+  return (
+    <>
+      <View style={styles.categoryCard}>
+        <Image
+          source={{ uri: category.picture }}
+          style={styles.backgroundImage}
+        />
+        <Text style={styles.name}>{category.name}</Text>
+      </View>
+    </>
+  );
 }
