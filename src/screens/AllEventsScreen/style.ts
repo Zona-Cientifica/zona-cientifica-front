@@ -14,9 +14,12 @@ const styles = StyleSheet.create({
         marginTop: "10%"
       },
       boxEvents: {
-        marginTop: '8%',
+        marginTop: '0%',
+        marginBottom: 260,
+      },
+      events: {
+        marginTop: '2%',
         alignItems: 'center',
-        marginBottom: '15%'
       },
       title: {
         color: "#FFF",

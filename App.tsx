@@ -4,12 +4,14 @@ import { EditProfileScreen } from "./src/screens/EditProfileScreen/editProfile";
 import { LoginScreen } from "./src/screens/LoginScreen/loginScreen";
 import { SignUpScreen } from "./src/screens/SignUpScreen/signUpSreen";
 import { ProfileScreen } from "./src/screens/ProfileScreen/profileScreen";
+import EventDetailScreen from "./src/screens/EventDetailScreen/EventDetailScreen";
+import AllEventsScreen from "./src/screens/AllEventsScreen/AllEventsScreen";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar translucent={true} backgroundColor={"transparent"} />
-      <ProfileScreen />
+      <AllEventsScreen />
     </View>
   );
 }
