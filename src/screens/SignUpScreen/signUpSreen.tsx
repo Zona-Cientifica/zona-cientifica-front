@@ -7,9 +7,44 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
+import React, { useState } from "react";
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: 'http://10.0.2.2:3000',
+});
 
 // Fazer validação de informações
 export function SignUpScreen() {
+  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  function handleChangeUser(event: React.SetStateAction<string>) {
+    setUser(event);
+  }
+  function handleChangeEmail(event: React.SetStateAction<string>) {
+    setEmail(event);
+  }
+  function handleChangePassword(event: React.SetStateAction<string>) {
+    setPassword(event);
+  }
+
+  async function signUp() {
+    try {
+      api
+        .post("/auth/register/", {
+          name: user,
+          email: email,
+          password: password,
+        })
+    } catch (error) {
+      console.log("ERRO: " + error);
+    } finally {
+      console.log("user registered");
+    }
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar animated translucent backgroundColor="transparent" />
@@ -18,16 +53,29 @@ export function SignUpScreen() {
         style={styles.backgroundImage}
       >
         <View>
-          <TextInput style={styles.userInput}></TextInput>
+          <TextInput
+            style={styles.userInput}
+            onChangeText={handleChangeUser}
+          ></TextInput>
           <Text style={styles.labelsInput}>Usuário</Text>
 
-          <TextInput style={styles.emailInput}></TextInput>
+          <TextInput
+            style={styles.emailInput}
+            onChangeText={handleChangeEmail}
+          ></TextInput>
           <Text style={styles.labelsInput}>E-mail</Text>
 
-          <TextInput style={styles.passwordInput}></TextInput>
+          <TextInput
+            style={styles.passwordInput}
+            onChangeText={handleChangePassword}
+          ></TextInput>
           <Text style={styles.labelsInput}>Senha</Text>
 
-          <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.8}
+            onPress={signUp}
+          >
             <Text style={styles.buttonInput}>Cadastrar</Text>
           </TouchableOpacity>
 
@@ -142,3 +190,6 @@ const styles = StyleSheet.create({
     lineHeight: 19,
   },
 });
+function setState(arg0: { value: any }) {
+  throw new Error("Function not implemented.");
+}
