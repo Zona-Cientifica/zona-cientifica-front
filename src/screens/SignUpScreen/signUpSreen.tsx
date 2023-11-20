@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'http://10.0.2.2:3000',
+  baseURL: "http://10.0.2.2:3000",
 });
 
 // Fazer validação de informações
@@ -38,10 +38,11 @@ export function SignUpScreen() {
           email: email,
           password: password,
         })
+        .then(() => {
+          console.log("User Registered.");
+        });
     } catch (error) {
       console.log("ERRO: " + error);
-    } finally {
-      console.log("user registered");
     }
   }
 
