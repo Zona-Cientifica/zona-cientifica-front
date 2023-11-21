@@ -2,6 +2,7 @@ import {
   ImageBackground,
   StatusBar,
   StyleSheet,
+  Image,
   TextInput,
   Text,
   View,
@@ -56,45 +57,50 @@ export function SignUpScreen({ navigation }: any) {
     <View style={styles.container}>
       <StatusBar animated translucent backgroundColor="transparent" />
       <ImageBackground
+        blurRadius={5}
         source={require("../../assets/backgrounds/Frame1.png")}
         style={styles.backgroundImage}
       >
-        <View>
-          <TextInput
-            style={styles.userInput}
-            onChangeText={handleChangeUser}
-          ></TextInput>
-          <Text style={styles.labelsInput}>Usuário</Text>
+          <View>
+            <Image
+              source={require("../../assets/backgrounds/Logo.png")}
+              style={styles.logo}
+            ></Image>
+            <TextInput
+              style={styles.userInput}
+              onChangeText={handleChangeUser}
+            ></TextInput>
+            <Text style={styles.labelsInput}>Usuário</Text>
 
-          <TextInput
-            style={styles.emailInput}
-            onChangeText={handleChangeEmail}
-          ></TextInput>
-          <Text style={styles.labelsInput}>E-mail</Text>
+            <TextInput
+              style={styles.emailInput}
+              onChangeText={handleChangeEmail}
+            ></TextInput>
+            <Text style={styles.labelsInput}>E-mail</Text>
 
-          <TextInput
-            style={styles.passwordInput}
-            onChangeText={handleChangePassword}
-          ></TextInput>
-          <Text style={styles.labelsInput}>Senha</Text>
+            <TextInput
+              style={styles.passwordInput}
+              onChangeText={handleChangePassword}
+            ></TextInput>
+            <Text style={styles.labelsInput}>Senha</Text>
 
-          <TouchableOpacity
-            style={styles.button}
-            activeOpacity={0.8}
-            onPress={signIn}
-          >
-            <Text style={styles.buttonInput}>Cadastrar</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              activeOpacity={0.8}
+              onPress={signIn}
+            >
+              <Text style={styles.buttonInput}>Cadastrar</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.redirectText}
-            activeOpacity={0.5}
-            onPress={loginScreen}
-          >
-            <Text style={styles.paragraph}>Já possui uma conta?</Text>
-            <Text style={styles.paragraph}>Clique aqui para entrar!</Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={styles.redirectText}
+              activeOpacity={0.5}
+              onPress={loginScreen}
+            >
+              <Text style={styles.paragraph}>Já possui uma conta?</Text>
+              <Text style={styles.paragraph}>Clique aqui para entrar!</Text>
+            </TouchableOpacity>
+          </View>
       </ImageBackground>
     </View>
   );
@@ -109,9 +115,16 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
   },
+  logo: {
+    width: 120,
+    height: 120,
+    alignSelf: "center",
+    marginTop: "25%",
+    resizeMode: "center",
+  },
   userInput: {
     backgroundColor: "#D9D9D9",
-    marginTop: 159,
+    marginTop: 40,
     marginLeft: "auto",
     marginRight: "auto",
     borderRadius: 10,
@@ -129,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "900",
     marginTop: -75,
-    marginLeft: 48,
+    marginLeft: 54,
   },
   emailInput: {
     backgroundColor: "#D9D9D9",
