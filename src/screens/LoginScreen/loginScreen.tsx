@@ -9,7 +9,11 @@ import {
   Image,
 } from "react-native";
 
-export function LoginScreen() {
+export function LoginScreen({ navigation }: any) {
+  function SignUpScreen() {
+    navigation.navigate("SignUp");
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar animated translucent backgroundColor="transparent" />
@@ -18,7 +22,10 @@ export function LoginScreen() {
         style={styles.backgroundImage}
       >
         <View>
-          <Image source={require("../../assets/backgrounds/Logo.png")} style={styles.logo}></Image>
+          <Image
+            source={require("../../assets/backgrounds/Logo.png")}
+            style={styles.logo}
+          ></Image>
 
           <TextInput style={styles.userInput}></TextInput>
           <Text style={styles.labelsInput}>Usuário</Text>
@@ -30,7 +37,11 @@ export function LoginScreen() {
             <Text style={styles.buttonInput}>Entrar</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.redirectText} activeOpacity={0.5}>
+          <TouchableOpacity
+            style={styles.redirectText}
+            activeOpacity={0.5}
+            onPress={SignUpScreen}
+          >
             <Text style={styles.paragraph}>Não possui uma conta?</Text>
             <Text style={styles.paragraph}>Clique aqui para cadastrar-se!</Text>
           </TouchableOpacity>
@@ -51,8 +62,8 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   logo: {
-    width: "50%",
-    height: "14%",
+    width: 150,
+    height: 150,
     alignSelf: "center",
     marginTop: "25%",
     resizeMode: "center",
@@ -64,7 +75,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     borderRadius: 10,
     width: "80%",
-    height: "11.5%",
+    height: 79,
     borderColor: "#ACACAC",
     borderWidth: 1,
     paddingLeft: 14,
@@ -86,7 +97,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     borderRadius: 10,
     width: "80%",
-    height: "11.5%",
+    height: 79,
     borderColor: "#ACACAC",
     borderWidth: 1,
     paddingLeft: 14,

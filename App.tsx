@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { FavoritesScreen } from "./src/screens/FavoritesScreen/favoritesScreen";
 import { EditProfileScreen } from "./src/screens/EditProfileScreen/editProfile";
 import { LoginScreen } from "./src/screens/LoginScreen/loginScreen";
-import { SignUpScreen } from "./src/screens/SignUpScreen/signUpSreen";
+import { SignUpScreen } from "./src/screens/SignUpScreen/signUpScreen";
 import { ProfileScreen } from "./src/screens/ProfileScreen/profileScreen";
 import EventDetailScreen from "./src/screens/EventDetailScreen/EventDetailScreen";
 import AllEventsScreen from "./src/screens/AllEventsScreen/AllEventsScreen";
@@ -17,6 +17,14 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            title: "",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="SignUp"
           component={SignUpScreen}
           options={{
@@ -27,14 +35,6 @@ export default function App() {
         <Stack.Screen
           name="AllEvents"
           component={AllEventsScreen}
-          options={{
-            title: "",
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
           options={{
             title: "",
             headerShown: false,
