@@ -15,7 +15,7 @@ const api = axios.create({
 });
 
 // Fazer validação de informações
-export function SignUpScreen() {
+export function SignUpScreen({ navigation }:any) {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +40,7 @@ export function SignUpScreen() {
         })
         .then(() => {
           console.log("User Registered.");
+          navigation.navigate('AllEvents');
         });
     } catch (error) {
       console.log("ERRO: " + error);
