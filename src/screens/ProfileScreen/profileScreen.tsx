@@ -1,25 +1,42 @@
-import { StyleSheet, View, Image, Text, TouchableOpacity, ImageBackground } from "react-native"
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 
-export function ProfileScreen() {
+export function ProfileScreen({ navigation }: any) {
+  function editProfile() {
+    navigation.navigate("EditProfile");
+  }
+  function favorites(){
+    navigation.navigate("Favorites");
+  }
+  function participating(){
+    navigation.navigate("Participating");
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../assets/backgrounds/Rectangle1.png')}
+        source={require("../../assets/backgrounds/Rectangle1.png")}
         style={styles.backgroundImage}
       >
         <View style={styles.boxProfile}>
           <Image
             style={styles.picture}
-            source={require('../../assets/backgrounds/Ellipse1.png')}
+            source={require("../../assets/backgrounds/Ellipse1.png")}
           />
           <Text style={styles.fullName}>Leonardo Mendes</Text>
           <Text style={styles.firstName}>Leonardo</Text>
         </View>
 
-        <TouchableOpacity style={styles.buttonEdit}>
+        <TouchableOpacity style={styles.buttonEdit} onPress={editProfile}>
           <Image
-            style = {styles.edit}
-            source={require('../../assets/backgrounds/edit.png')}
+            style={styles.edit}
+            source={require("../../assets/backgrounds/edit.png")}
           />
         </TouchableOpacity>
 
@@ -29,16 +46,15 @@ export function ProfileScreen() {
           <Text style={styles.email}>mendes.leonardo@academico.com</Text>
         </View>
 
-        <TouchableOpacity style={styles.buttonFavorite}>
+        <TouchableOpacity style={styles.buttonFavorite} onPress={favorites}>
           <Text style={styles.favorite}>Favoritos</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonParticipating}>
+        <TouchableOpacity style={styles.buttonParticipating} onPress={participating}>
           <Text style={styles.participating}>Participando</Text>
         </TouchableOpacity>
       </ImageBackground>
-
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -52,92 +68,92 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   boxProfile: {
-    marginTop: '15%',
-    alignItems: 'center',
+    marginTop: "15%",
+    alignItems: "center",
   },
   picture: {
     width: 171,
     height: 171,
-    marginBottom: '2%',
+    marginBottom: "2%",
     borderRadius: 100,
   },
   fullName: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 32,
-    fontWeight: '700'
+    fontWeight: "700",
   },
   firstName: {
-    color: '#DBBCBC',
+    color: "#DBBCBC",
     fontSize: 22,
-    fontWeight: '400',
+    fontWeight: "400",
   },
   boxContact: {
-    marginTop: '-5%',
-    marginLeft: '10%'
+    marginTop: "-5%",
+    marginLeft: "10%",
   },
   contact: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 32,
-    fontWeight: '700'
+    fontWeight: "700",
   },
   number: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 20,
-    fontWeight: '400'
+    fontWeight: "400",
   },
   email: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 20,
-    fontWeight: '400'
+    fontWeight: "400",
   },
   buttonFavorite: {
-    backgroundColor: 'rgba(217, 217, 217, 0.20);',
+    backgroundColor: "rgba(217, 217, 217, 0.20);",
     borderRadius: 20,
-    borderColor: '#000',
+    borderColor: "#000",
     borderWidth: 1,
-    padding: '1%',
-    marginTop: '20%',
+    padding: "1%",
+    marginTop: "20%",
     width: 150,
-    marginLeft: '10%',
-    alignItems: 'center',
-    justifyContent: 'center'
+    marginLeft: "10%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   favorite: {
-    color: '#003465',
+    color: "#003465",
     fontSize: 32,
-    fontWeight: '700'
+    fontWeight: "700",
   },
   participating: {
-    color: '#003465',
+    color: "#003465",
     fontSize: 32,
-    fontWeight: '700'
+    fontWeight: "700",
   },
   buttonParticipating: {
-    backgroundColor: 'rgba(217, 217, 217, 0.20);',
+    backgroundColor: "rgba(217, 217, 217, 0.20);",
     borderRadius: 20,
-    borderColor: '#000',
+    borderColor: "#000",
     borderWidth: 1,
-    padding: '1%',
-    marginTop: '3%',
+    padding: "1%",
+    marginTop: "3%",
     width: 200,
-    marginLeft: '10%',
-    alignItems: 'center',
-    justifyContent: 'center'
+    marginLeft: "10%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   edit: {
     width: 30,
     height: 30,
   },
   buttonEdit: {
-    backgroundColor: 'rgba(217, 217, 217, 0.20)',
+    backgroundColor: "rgba(217, 217, 217, 0.20)",
     borderRadius: 10,
-    borderColor: '#000',
+    borderColor: "#000",
     borderWidth: 1,
     width: 45,
     height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: '85%',
-    marginTop: '-2%'
-  }
-})
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: "85%",
+    marginTop: "-2%",
+  },
+});

@@ -6,6 +6,7 @@ import { SignUpScreen } from "./src/screens/SignUpScreen/signUpSreen";
 import { ProfileScreen } from "./src/screens/ProfileScreen/profileScreen";
 import EventDetailScreen from "./src/screens/EventDetailScreen/EventDetailScreen";
 import AllEventsScreen from "./src/screens/AllEventsScreen/AllEventsScreen";
+import { ParticipatingScreen } from "./src/screens/ParticipatingScreen/participatingScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -29,6 +30,54 @@ export default function App() {
           options={{
             title: "",
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            title: "",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            title: "",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          component={EditProfileScreen}
+          options={{
+            title: "",
+            headerTransparent: true,
+          }}
+        />
+        <Stack.Screen
+          name="EventDetail"
+          component={EventDetailScreen}
+          options={{
+            title: "",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Favorites"
+          component={FavoritesScreen}
+          options={{
+            title: "",
+            headerTransparent: true,
+          }}
+        />
+        <Stack.Screen
+          name="Participating"
+          component={ParticipatingScreen}
+          options={{
+            title: "",
+            headerTransparent: true,
           }}
         />
       </Stack.Navigator>
