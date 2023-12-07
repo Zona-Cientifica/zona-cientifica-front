@@ -47,12 +47,12 @@ export function EditProfileScreen({ route }: any) {
           />
           <TextInput
             style={styles.inputFullName}
-            value={name}
+            defaultValue={name}
             placeholderTextColor={"#000"}
           />
           <TextInput
             style={styles.inputName}
-            value={surname}
+            defaultValue={surname}
             placeholderTextColor={"#000"}
           />
         </View>
@@ -62,12 +62,12 @@ export function EditProfileScreen({ route }: any) {
         <View style={styles.boxContact}>
           <TextInput
             style={styles.inputNumber}
-            value={phone}
+            defaultValue={phone}
             placeholderTextColor={"#000"}
           />
           <TextInput
             style={styles.inputEmail}
-            value={email}
+            defaultValue={email}
             placeholderTextColor={"#000"}
           />
         </View>
@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   inputFullName: {
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "rgba(255, 255, 255, 0.35)",
+    borderRadius: 5,
     color: "#000",
     fontSize: 32,
     fontWeight: "700",
@@ -116,11 +117,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   inputName: {
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "rgba(255, 255, 255, 0.35)",
+    borderRadius: 5,
     fontSize: 22,
-    fontWeight: "400",
-    padding: "2%",
-    width: "28%",
+    fontWeight: "500",
+    color: "#000",
+    paddingLeft: "2%",
+    paddingRight: "2%",
+    width: "60%",
+    height: "10%",
     textAlign: "center",
   },
   contact: {
@@ -135,21 +140,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inputNumber: {
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "rgba(255, 255, 255, 0.35)",
+    borderRadius: 5,
     fontSize: 20,
-    fontWeight: "400",
-    padding: "1%",
+    fontWeight: "500",
+    color: "#000",
+    paddingLeft: "2%",
+    paddingRight: "2%",
     marginTop: "2%",
     marginBottom: "3%",
-    width: "35%",
+    width: "50%",
     textAlign: "center",
   },
   inputEmail: {
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "rgba(255, 255, 255, 0.35)",
+    borderRadius: 5,
     fontSize: 20,
-    fontWeight: "400",
-    padding: "1%",
-    width: "81%",
+    fontWeight: "500",
+    color: "#000",
+    paddingTop: "1%",
+    paddingBottom: "1%",
+    paddingLeft: "2%",
+    paddingRight: "2%",
+    width: "70%",
     textAlign: "center",
   },
   boxButton: {
