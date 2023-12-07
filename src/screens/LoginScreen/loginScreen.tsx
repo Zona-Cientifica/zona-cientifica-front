@@ -8,10 +8,43 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import axios from "axios";
+import { useState } from "react";
+
+const api = axios.create({
+  baseURL: "http://10.0.2.2:3000",
+});
 
 export function LoginScreen({ navigation }: any) {
-  function SignUpScreen() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  function handleChangeUsername(event: React.SetStateAction<string>) {
+    setEmail(event);
+  }
+  function handleChangePassword(event: React.SetStateAction<string>) {
+    setPassword(event);
+  }
+
+  function signUpScreen() {
     navigation.navigate("SignUp");
+  }
+
+  function profile() {
+    api
+      .post("/login", {
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        navigation.navigate("Profile", {
+          userEmail: res.data.email,
+          userPassword: password,
+          userName: res.data.name,
+          userContact: res.data.telefone,
+          userSurname: res.data.apelido,
+        });
+      });
   }
 
   return (
@@ -27,20 +60,30 @@ export function LoginScreen({ navigation }: any) {
             style={styles.logo}
           ></Image>
 
-          <TextInput style={styles.userInput}></TextInput>
-          <Text style={styles.labelsInput}>Usuário</Text>
+          <TextInput
+            style={styles.userInput}
+            onChangeText={handleChangeUsername}
+          ></TextInput>
+          <Text style={styles.labelsInput}>Email</Text>
 
-          <TextInput style={styles.passwordInput}></TextInput>
+          <TextInput
+            style={styles.passwordInput}
+            onChangeText={handleChangePassword}
+          ></TextInput>
           <Text style={styles.labelsInput}>Senha</Text>
 
-          <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.8}
+            onPress={profile}
+          >
             <Text style={styles.buttonInput}>Entrar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.redirectText}
             activeOpacity={0.5}
-            onPress={SignUpScreen}
+            onPress={signUpScreen}
           >
             <Text style={styles.paragraph}>Não possui uma conta?</Text>
             <Text style={styles.paragraph}>Clique aqui para cadastrar-se!</Text>

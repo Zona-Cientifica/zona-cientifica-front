@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import axios from "axios";
-import { LoginScreen } from "../LoginScreen/loginScreen";
 
 const api = axios.create({
   baseURL: "http://10.0.2.2:3000",
@@ -39,14 +38,14 @@ export function SignUpScreen({ navigation }: any) {
   async function signIn() {
     try {
       api
-        .post("/auth/register/", {
+        .post("/register", {
           name: user,
           email: email,
           password: password,
         })
         .then(() => {
           console.log("User Registered.");
-          navigation.navigate("Profile");
+          navigation.navigate("Profile", {userEmail: email, userPassword: password});
         });
     } catch (error) {
       console.log("ERRO: " + error);

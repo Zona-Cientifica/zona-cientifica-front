@@ -1,7 +1,18 @@
-import { ImageBackground, StyleSheet, View, Text, FlatList } from "react-native";
+import {
+  ImageBackground,
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+} from "react-native";
 import { Card } from "../../components/Card/card";
+import axios from "axios";
+import { useState } from "react";
 
-const array = [
+const api = axios.create({
+  baseURL: "http://10.0.2.2:3000",
+});
+/*const array = [
 {
   title: 'IV SertãoComp',
   picture: 'https://s3-alpha-sig.figma.com/img/e25e/f73a/1287e212956d8313fb8b12163d14f89b?Expires=1700438400&Signature=NkXNU8CcHrw0HX0TCWO1kAcHc5YVNXiZyO1YmIQDbOSxVqq01YBU71IJeVL0rxoNDb8SdB5Iqfgcl6q8LJmoyW1MVGph5fF6ELqkhocDOTx-1Vh-v~8xbszFPzo855qr4NAm8-PIS0SBdyztSaQ1z31KzRnz9GDNcWzleWbKm7eQ3jLYpABcCJGtlDs7gYYXPU4a6Te1MUboH4fiI-uE9PZALsBspqG5X2j-7-JqLbGBVCLAoyYRLa2sWJz7ktU4jT-Db2Mbbx-R6m6tdOGwOBXnZxln0-uInAXzN9dS85a8o4i5NPRSWxU-OFmxI2kZMSu7QS8YfseL-rWFWcn9ig__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
@@ -27,23 +38,33 @@ const array = [
   date: '06 a 11 de Agosto'
 }
 ]
-export function FavoritesScreen(){
-  return(
+*/
+export function FavoritesScreen({ route }: any) {
+  const [favorites, setFavorites] = useState<[]>([]);
+  const email = route.params.userEmail;
+  const password = route.params.userPassword;
+  function findFavorites() {
+    api.post("/login", { email: email, password: password }).then((res) => {
+      setFavorites(res.data.favoriteList);
+    });
+  }
+  findFavorites();
+  return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../assets/backgrounds/color-morph1.png')}
+        source={require("../../assets/backgrounds/color-morph1.png")}
         style={styles.backgroundImage}
       >
         <View style={styles.boxCards}>
           <Text style={styles.textFavorite}>Meus favoritos</Text>
-          <FlatList 
-            data={array}
-            renderItem={({item}) => <Card event={item}/>}
+          <FlatList
+            data={favorites}
+            renderItem={({ item }) => <Card event={item} />}
           />
         </View>
       </ImageBackground>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -57,13 +78,13 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   boxCards: {
-    marginTop: '8%',
-    alignItems: 'center',
-    marginBottom: '15%'
+    marginTop: "8%",
+    alignItems: "center",
+    marginBottom: "15%",
   },
   textFavorite: {
-    color: '#FFF',
+    color: "#FFF",
     fontSize: 32,
-    fontWeight: '700'
-  }
-})
+    fontWeight: "700",
+  },
+});

@@ -6,16 +6,49 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
+import axios from "axios";
+import { useState } from "react";
 
-export function ProfileScreen({ navigation }: any) {
+const api = axios.create({
+  baseURL: "http://10.0.2.2:3000",
+});
+
+export function ProfileScreen({ route, navigation }: any) {
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [phone, setPhone] = useState(0);
+  const email = route.params?.userEmail;
+  const password = route.params?.userPassword;
+  function profile() {
+    api
+      .post("/login", {
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        setName(res.data.name);
+        setSurname(res.data.apelido);
+        setPhone(res.data.telefone);
+      });
+  }
+  profile();
   function editProfile() {
-    navigation.navigate("EditProfile");
+    navigation.navigate("EditProfile", {
+      userEmail: email,
+      userPassword: password,
+    });
   }
-  function favorites(){
-    navigation.navigate("Favorites");
+  function favorites() {
+    navigation.navigate("Favorites", {
+      userEmail: email,
+      userPassword: password,
+    });
   }
-  function participating(){
-    navigation.navigate("Participating");
+  function participating() {
+    navigation.navigate("Participating", {
+      userEmail: email,
+      userPassword: password,
+    });
   }
 
   return (
@@ -29,8 +62,8 @@ export function ProfileScreen({ navigation }: any) {
             style={styles.picture}
             source={require("../../assets/backgrounds/Ellipse1.png")}
           />
-          <Text style={styles.fullName}>Leonardo Mendes</Text>
-          <Text style={styles.firstName}>Leonardo</Text>
+          <Text style={styles.fullName}>{name}</Text>
+          <Text style={styles.firstName}>{surname}</Text>
         </View>
 
         <TouchableOpacity style={styles.buttonEdit} onPress={editProfile}>
@@ -42,14 +75,17 @@ export function ProfileScreen({ navigation }: any) {
 
         <View style={styles.boxContact}>
           <Text style={styles.contact}>Contato</Text>
-          <Text style={styles.number}>88 9 96647341</Text>
-          <Text style={styles.email}>mendes.leonardo@academico.com</Text>
+          <Text style={styles.number}>{phone}</Text>
+          <Text style={styles.email}>{email}</Text>
         </View>
 
         <TouchableOpacity style={styles.buttonFavorite} onPress={favorites}>
           <Text style={styles.favorite}>Favoritos</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonParticipating} onPress={participating}>
+        <TouchableOpacity
+          style={styles.buttonParticipating}
+          onPress={participating}
+        >
           <Text style={styles.participating}>Participando</Text>
         </TouchableOpacity>
       </ImageBackground>
