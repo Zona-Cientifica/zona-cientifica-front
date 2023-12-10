@@ -2,12 +2,8 @@ import { View, Text, ImageBackground, FlatList } from "react-native";
 import styles from "./style";
 import Category from "../../components/Category/Category";
 import { Card } from "../../components/Card/card";
-import axios from "axios";
+import { api } from "../../utils/api";
 import { useState } from "react";
-
-const api = axios.create({
-  baseURL: "http://10.0.2.2:3000",
-});
 
 type Events = {
   title: string;

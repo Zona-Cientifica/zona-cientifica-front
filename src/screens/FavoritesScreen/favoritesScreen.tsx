@@ -6,12 +6,9 @@ import {
   FlatList,
 } from "react-native";
 import { Card } from "../../components/Card/card";
-import axios from "axios";
+import { api } from "../../utils/api";
 import { useState } from "react";
 
-const api = axios.create({
-  baseURL: "http://10.0.2.2:3000",
-});
 /*const array = [
 {
   title: 'IV SertãoComp',

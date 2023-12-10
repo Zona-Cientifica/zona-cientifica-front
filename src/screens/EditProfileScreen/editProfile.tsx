@@ -7,12 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import axios from "axios";
+import { api } from "../../utils/api";
 import { useState } from "react";
-
-const api = axios.create({
-  baseURL: "http://10.0.2.2:3000",
-});
 
 export function EditProfileScreen({ route }: any) {
   const [name, setName] = useState("");
