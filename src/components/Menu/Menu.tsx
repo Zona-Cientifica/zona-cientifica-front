@@ -124,6 +124,9 @@ export default function Menu() {
           component={ParticipatingScreen}
           options={{
             title: "Participando",
+            drawerItemStyle:{
+              marginBottom: 114,
+            },
             drawerLabelStyle: {
               fontStyle: "normal",
               fontWeight: "400",
@@ -152,7 +155,6 @@ export default function Menu() {
               fontStyle: "normal",
               fontWeight: "500",
               fontSize: 32,
-              marginTop: 114,
             },
             headerShown: false,
             drawerIcon: () => (
@@ -163,7 +165,6 @@ export default function Menu() {
                   height: 40,
                   marginLeft: 10,
                   marginRight: -10,
-                  marginTop: 114,
                 }}
               />
             ),
