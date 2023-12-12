@@ -8,6 +8,7 @@ import { SignUpScreen } from "../../screens/SignUpScreen/signUpScreen";
 import { LoginScreen } from "../../screens/LoginScreen/loginScreen";
 import { EditProfileScreen } from "../../screens/EditProfileScreen/editProfile";
 import EventDetailScreen from "../../screens/EventDetailScreen/EventDetailScreen";
+import CreateEventScreen from "../../screens/CreateEventScreen/CreateEventScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -86,6 +87,16 @@ export default function Menu(){
                         headerShown: false,
                     }}
                 />
+
+                <Drawer.Screen
+                    name="CreateEvent"
+                    component={CreateEventScreen}
+                    options={{
+                        title: "Criar Evento",
+                        headerShown: false,
+                    }}
+                />
+
                 <Drawer.Screen
                     name="Profile"
                     component={ProfileScreen}
