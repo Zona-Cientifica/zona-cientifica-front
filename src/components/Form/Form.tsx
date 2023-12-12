@@ -1,36 +1,56 @@
-import { View, Text, ImageBackground, Pressable, Alert, TextInput, KeyboardAvoidingView } from "react-native";
+import { useState } from "react";
+import {
+    View,
+    Text,
+    ImageBackground,
+    Pressable,
+    Alert,
+    TextInput,
+    KeyboardAvoidingView,
+    Image
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { Controller, useForm } from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { InputText } from "../TextInput/TextInput";
+import { InputImage } from "../InputImage/InputImage";
 import { api } from "../../utils/api";
-
 import { zodSchema, ICreateEvent } from "../../utils/createEventSchema";
-
 import styles from "./styles";
 
-export default function Form() {
+type Props = {
+    navigation:any
+}
+
+export default function Form({navigation}:Props) {
+    const [imagePath, setImagePath] = useState<string[]>([]);
+
     const {control, handleSubmit, formState: {errors}} = useForm<ICreateEvent>({
         resolver: zodResolver(zodSchema)
     });
 
-    function handleCreateEvent(event:ICreateEvent){
-        Alert.alert(
-            'cadastro realizado com sucesso', 
-            `(${event.title})`,
-            [
-              {text:'ok',}
-            ]
-          );
+    async function handleCreateEvent(event:ICreateEvent){
+        const formData = new FormData();
+
+        formData.append("title", event.title);
+        formData.append("description", event.description);
+        formData.append("theme", event.theme);
+        formData.append("picture", event.picture);
+
+        const axiosConfig = {headers: {'content-type': 'multipart/form-data'}}
+
+        await api.post("/", formData, axiosConfig);
+        navigation.navigate("AllEvents");
     }
 
     return (
         <>
-            <View style={styles.container}>
-                <ImageBackground
-                    source={require("../../assets/backgrounds/color-morph1.png")}
-                    style={styles.backgroundImage}
-                >
-                    <KeyboardAvoidingView behavior="position" enabled style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollView}>
+                <View style={styles.container}>
+                    <ImageBackground
+                        source={require("../../assets/backgrounds/color-morph1.png")}
+                        style={styles.backgroundImage}
+                    >
                         <Controller
                             name="title"
                             control={control}
@@ -79,12 +99,33 @@ export default function Form() {
                             )}
                         />
 
-                        <Pressable onPress={handleSubmit(handleCreateEvent)}>
-                            <Text>Enviar</Text>
+                        <Controller
+                            name="picture"
+                            control={control}
+                            render={({field}) => (
+                                <InputImage
+                                    setImagePath={setImagePath}
+                                />
+                            )}
+                        />
+                        
+                        {
+                            imagePath.map((imgUri) => (
+                                <Image
+                                    style={{width: 150, height: 150, alignSelf: "center"}}
+                                    key={imgUri}
+                                    source={ {uri: imgUri} }
+                                />
+                            ))
+                        }
+
+
+                        <Pressable style={styles.button} onPress={handleSubmit(handleCreateEvent)}>
+                            <Text style={styles.buttonText}>Enviar</Text>
                         </Pressable>
-                    </KeyboardAvoidingView>
-                </ImageBackground>
-            </View>
+                    </ImageBackground>
+                </View>
+            </ScrollView>
         </>
     );
 }
