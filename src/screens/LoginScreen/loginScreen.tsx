@@ -10,10 +10,13 @@ import {
 } from "react-native";
 import { api } from "../../utils/api";
 import { useState } from "react";
+import { useAuth } from "../../contexts/auth";
 
 export function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const context = useAuth();
 
   function handleChangeUsername(event: React.SetStateAction<string>) {
     setEmail(event);
@@ -27,20 +30,7 @@ export function LoginScreen({ navigation }: any) {
   }
 
   function profile() {
-    api
-      .post("/login", {
-        email: email,
-        password: password,
-      })
-      .then((res) => {
-        navigation.navigate("Profile", {
-          userEmail: res.data.email,
-          userPassword: password,
-          userName: res.data.name,
-          userContact: res.data.telefone,
-          userSurname: res.data.apelido,
-        });
-      });
+    context.login(email, password);
   }
 
   return (

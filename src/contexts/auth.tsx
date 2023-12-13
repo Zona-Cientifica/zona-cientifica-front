@@ -9,7 +9,7 @@ const AuthContext = createContext({} as AuthContext);
 type AuthContext = {
     signed: boolean,
     user: User | null,
-    signin(username:string, email:string, password:string): Promise<void>,
+    signin(email:string, password:string): Promise<void>,
     login(email:string, password:string): Promise<void>,
     logout(): void,
 }
@@ -36,9 +36,8 @@ export function AuthProvider({children, navigation}:Props){
         isUserLogged();
     }, []);
 
-    async function signin(username:string, email:string, password:string){
-        const response = await api.post("/auth/signin", {
-            username: username,
+    async function signin(email:string, password:string){
+        const response = await api.post("/register", {
             email: email,
             password: password
         })
@@ -47,14 +46,14 @@ export function AuthProvider({children, navigation}:Props){
     }
 
     async function login(email:string, password:string){
-        const response = await api.post("/auth/login", {email, password});
+        const response = await api.post("/login", {email, password});
 
         setUser(response.data.user)
         api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
 
         AsyncStorage.setItem("user", JSON.stringify(response.data.user));
         AsyncStorage.setItem("token", response.data.token);
-        navigation.navigate("SignUp");
+        navigation.navigate("Profile");
     }
 
     function logout(){
