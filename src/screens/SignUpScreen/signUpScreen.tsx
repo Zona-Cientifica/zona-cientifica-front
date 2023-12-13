@@ -10,12 +10,15 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { api } from "../../utils/api";
+import { useAuth } from "../../contexts/auth";
 
 // Fazer validação de informações
 export function SignUpScreen({ navigation }: any) {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const context = useAuth();
 
   function handleChangeUser(event: React.SetStateAction<string>) {
     setUser(event);
@@ -32,20 +35,7 @@ export function SignUpScreen({ navigation }: any) {
   }
 
   async function signIn() {
-    try {
-      api
-        .post("/register", {
-          name: user,
-          email: email,
-          password: password,
-        })
-        .then(() => {
-          console.log("User Registered.");
-          navigation.navigate("Profile", {userEmail: email, userPassword: password});
-        });
-    } catch (error) {
-      console.log("ERRO: " + error);
-    }
+    context.signin(email, password);
   }
 
   return (
