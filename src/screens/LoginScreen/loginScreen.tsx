@@ -31,6 +31,10 @@ export function LoginScreen({ navigation }: any) {
 
   function profile() {
     context.login(email, password);
+    navigation.navigate("Profile", {
+      userEmail: email,
+      userPassword: password,
+    });
   }
 
   return (
