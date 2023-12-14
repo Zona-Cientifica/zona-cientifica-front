@@ -10,9 +10,8 @@ import {
   Button,
 } from "react-native";
 import React, { useState } from "react";
-import { api } from "../../utils/api";
 import { useAuth } from "../../contexts/auth";
-import { useForm, Controller, Field, FieldValues } from "react-hook-form";
+import { useForm, Controller, FieldValues } from "react-hook-form";
 
 // Fazer validação de informações
 export function SignUpScreen({ navigation }: any) {
@@ -21,13 +20,17 @@ export function SignUpScreen({ navigation }: any) {
   function loginScreen() {
     navigation.navigate("Login");
   }
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: FieldValues) => console.log(data);
+  function onSubmit(data: FieldValues) {
+    context.signin(data.name, data.email, data.password);
+    loginScreen();
+  }
 
   return (
     <View style={styles.container}>
@@ -54,9 +57,9 @@ export function SignUpScreen({ navigation }: any) {
                 value={value}
               />
             )}
-            name="user"
+            name="name"
           />
-          {errors.user && (
+          {errors.name && (
             <Text style={styles.notice}>O nome é necessário</Text>
           )}
           <Text style={styles.labelsInput}>Usuário</Text>
@@ -74,7 +77,9 @@ export function SignUpScreen({ navigation }: any) {
             )}
             name="email"
           />
-          {errors.email && <Text style={styles.notice}>O email é necessário</Text>}
+          {errors.email && (
+            <Text style={styles.notice}>O email é necessário</Text>
+          )}
           <Text style={styles.labelsInput}>E-mail</Text>
 
           <Controller
@@ -90,7 +95,9 @@ export function SignUpScreen({ navigation }: any) {
             )}
             name="password"
           />
-          {errors.password && <Text style={styles.notice}>A senha é necessária</Text>}
+          {errors.password && (
+            <Text style={styles.notice}>A senha é necessária</Text>
+          )}
           <Text style={styles.labelsInput}>Senha</Text>
 
           <TouchableOpacity
