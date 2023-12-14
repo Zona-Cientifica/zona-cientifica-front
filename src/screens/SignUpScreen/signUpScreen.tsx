@@ -7,35 +7,29 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import React, { useState } from "react";
-import { api } from "../../utils/api";
 import { useAuth } from "../../contexts/auth";
+import { useForm, Controller, FieldValues } from "react-hook-form";
 
 // Fazer validação de informações
 export function SignUpScreen({ navigation }: any) {
-  const [user, setUser] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const context = useAuth();
-
-  function handleChangeUser(event: React.SetStateAction<string>) {
-    setUser(event);
-  }
-  function handleChangeEmail(event: React.SetStateAction<string>) {
-    setEmail(event);
-  }
-  function handleChangePassword(event: React.SetStateAction<string>) {
-    setPassword(event);
-  }
 
   function loginScreen() {
     navigation.navigate("Login");
   }
 
-  async function signIn() {
-    context.signin(email, password);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  function onSubmit(data: FieldValues) {
+    context.signin(data.name, data.email, data.password);
+    loginScreen();
   }
 
   return (
@@ -46,46 +40,83 @@ export function SignUpScreen({ navigation }: any) {
         source={require("../../assets/backgrounds/Frame1.png")}
         style={styles.backgroundImage}
       >
-          <View>
-            <Image
-              source={require("../../assets/backgrounds/Logo.png")}
-              style={styles.logo}
-            ></Image>
-            <TextInput
-              style={styles.userInput}
-              onChangeText={handleChangeUser}
-            ></TextInput>
-            <Text style={styles.labelsInput}>Usuário</Text>
+        <View>
+          <Image
+            source={require("../../assets/backgrounds/Logo.png")}
+            style={styles.logo}
+          ></Image>
 
-            <TextInput
-              style={styles.emailInput}
-              onChangeText={handleChangeEmail}
-            ></TextInput>
-            <Text style={styles.labelsInput}>E-mail</Text>
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.userInput}
+                placeholder="Seu nome de usuário"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="name"
+          />
+          {errors.name && (
+            <Text style={styles.notice}>O nome é necessário</Text>
+          )}
+          <Text style={styles.labelsInput}>Usuário</Text>
 
-            <TextInput
-              style={styles.passwordInput}
-              onChangeText={handleChangePassword}
-            ></TextInput>
-            <Text style={styles.labelsInput}>Senha</Text>
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.emailInput}
+                placeholder="Seu e-mail"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="email"
+          />
+          {errors.email && (
+            <Text style={styles.notice}>O email é necessário</Text>
+          )}
+          <Text style={styles.labelsInput}>E-mail</Text>
 
-            <TouchableOpacity
-              style={styles.button}
-              activeOpacity={0.8}
-              onPress={signIn}
-            >
-              <Text style={styles.buttonInput}>Cadastrar</Text>
-            </TouchableOpacity>
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Sua senha"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="password"
+          />
+          {errors.password && (
+            <Text style={styles.notice}>A senha é necessária</Text>
+          )}
+          <Text style={styles.labelsInput}>Senha</Text>
 
-            <TouchableOpacity
-              style={styles.redirectText}
-              activeOpacity={0.5}
-              onPress={loginScreen}
-            >
-              <Text style={styles.paragraph}>Já possui uma conta?</Text>
-              <Text style={styles.paragraph}>Clique aqui para entrar!</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.8}
+            onPress={handleSubmit(onSubmit)}
+          >
+            <Text style={styles.buttonInput}>Cadastrar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.redirectText}
+            activeOpacity={0.5}
+            onPress={loginScreen}
+          >
+            <Text style={styles.paragraph}>Já possui uma conta?</Text>
+            <Text style={styles.paragraph}>Clique aqui para entrar!</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
     </View>
   );
@@ -128,6 +159,11 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     marginTop: -65,
     marginLeft: "13%",
+  },
+  notice: {
+    color: "red",
+    marginLeft: "13%",
+    marginBottom: "-4.7%",
   },
   emailInput: {
     backgroundColor: "#D9D9D9",
