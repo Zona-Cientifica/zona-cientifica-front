@@ -1,4 +1,5 @@
 import { View, StyleSheet, Image, Text, Pressable } from "react-native";
+import { IMG_PATH } from "../../utils/api";
 import { Entypo } from "@expo/vector-icons";
 import { api } from "../../utils/api";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ interface Event {
 interface Props {
   event: Event;
 }
+
 export function Card({ event }: Props) {
   const context = useAuth();
   const [favorite, setFavorite] = useState(false);
@@ -67,9 +69,10 @@ export function Card({ event }: Props) {
   useEffect(() => {
     findFavorites();
   }, []);
+
   return (
     <View style={styles.card}>
-      <Image style={styles.imgCard} source={{ uri: event.picture }} />
+      <Image style={styles.imgCard} source={{ uri: IMG_PATH + event.picture }} />
       <View style={styles.boxDescription}>
         <Text style={styles.title}>{event.title}</Text>
         <Text style={styles.description}>{event.description}</Text>

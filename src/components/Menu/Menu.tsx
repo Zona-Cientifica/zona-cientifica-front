@@ -13,6 +13,7 @@ import EventDetailScreen from "../../screens/EventDetailScreen/EventDetailScreen
 import CreateEventScreen from "../../screens/CreateEventScreen/CreateEventScreen";
 import CustomDrawer from "../CustomDrawer/CustomDrawer";
 import { Image } from "react-native";
+import InputMapPosition from "../InputMapPosition/InputMapPosition";
 
 const Drawer = createDrawerNavigator();
 
@@ -144,6 +145,25 @@ export default function Menu() {
                 }}
               />
             ),
+          }}
+        />
+        <Drawer.Screen
+          name="CreateEvent"
+          component={InputMapPosition}
+          options={{
+            title: "Criar evento",
+            headerShown: false,
+          }}
+        />
+        <Drawer.Screen
+          name="CreateEventPost"
+          component={CreateEventScreen}
+          options={{
+            drawerItemStyle:{
+              display: "none"
+            },
+            title: "Criar evento",
+            headerShown: false,
           }}
         />
         <Drawer.Screen
