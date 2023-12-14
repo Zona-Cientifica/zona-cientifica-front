@@ -1,8 +1,12 @@
 import { View, StyleSheet, Image, Text, Pressable } from "react-native";
 import { IMG_PATH } from "../../utils/api";
 import { Entypo } from "@expo/vector-icons";
+import { api } from "../../utils/api";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/auth";
 
 interface Event {
+  _id: string;
   title: string;
   picture: string;
   description: string;
@@ -11,7 +15,61 @@ interface Event {
 interface Props {
   event: Event;
 }
-export function Card({ event }: Props) { 
+
+export function Card({ event }: Props) {
+  const context = useAuth();
+  const [favorite, setFavorite] = useState(false);
+
+  async function findFavorites() {
+    try {
+      api
+        .post("/getFavoriteList", { email: context.user?.email })
+        .then((res) => {
+          const list = res.data.favoriteList;
+          list.map((id: string) => {
+            if (id === event._id) {
+              setFavorite(true);
+            }
+          });
+        });
+    } catch (error) {
+      console.log("ERRO: " + error);
+    }
+  }
+  async function addFavorite() {
+    try {
+      api.post("/addFavorite", {
+        email: context.user?.email,
+        id: event._id,
+      });
+    } catch (error) {
+      console.log("ERRO: " + error);
+    }
+  }
+  async function deleteFavorite() {
+    try {
+      api.post("/deleteFavorite", {
+        email: context.user?.email,
+        id: event._id,
+      });
+    } catch (error) {
+      console.log("ERRO: " + error);
+    }
+  }
+  async function changeFavorite() {
+    if (favorite === true) {
+      deleteFavorite();
+      setFavorite(false);
+    } else {
+      addFavorite();
+      setFavorite(true);
+    }
+  }
+
+  useEffect(() => {
+    findFavorites();
+  }, []);
+
   return (
     <View style={styles.card}>
       <Image style={styles.imgCard} source={{ uri: IMG_PATH + event.picture }} />
@@ -20,9 +78,15 @@ export function Card({ event }: Props) {
         <Text style={styles.description}>{event.description}</Text>
         <Text style={styles.date}>{event.date}</Text>
       </View>
-      <Pressable style={styles.buttonHeart}>
-        <Entypo name="heart-outlined" size={40} color="#FFF" />
-      </Pressable>
+      {favorite === true ? (
+        <Pressable style={styles.buttonHeart} onPress={changeFavorite}>
+          <Entypo name="heart" size={40} color="#FF4141" />
+        </Pressable>
+      ) : (
+        <Pressable style={styles.buttonHeart} onPress={changeFavorite}>
+          <Entypo name="heart-outlined" size={40} color="#FFF" />
+        </Pressable>
+      )}
     </View>
   );
 }
