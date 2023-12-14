@@ -17,6 +17,7 @@ export function ProfileScreen({ route, navigation }: any) {
   //const password = route.params?.userPassword;
   const context = useAuth();
   const email = context.user?.email;
+  console.log(email);
   async function profile() {
     await api
       .post("/getUser", { email: context.user?.email })

@@ -9,7 +9,7 @@ const AuthContext = createContext({} as AuthContext);
 type AuthContext = {
   signed: boolean;
   user: User | null;
-  signin(email: string, password: string): Promise<void>;
+  signin(name: string, email: string, password: string): Promise<void>;
   login(email: string, password: string): Promise<void>;
   logout(): void;
 };
@@ -35,8 +35,9 @@ export function AuthProvider({ children }: Props) {
     isUserLogged();
   }, []);
 
-  async function signin(email: string, password: string) {
+  async function signin(name: string, email: string, password: string) {
     const response = await api.post("/register", {
+      name: name,
       email: email,
       password: password,
     });
