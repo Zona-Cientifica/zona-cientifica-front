@@ -4,3 +4,5 @@ import axios from "axios";
 export const api = axios.create({
     baseURL: API_URL
 })
+
+export const IMG_PATH = API_URL + "/uploads/";

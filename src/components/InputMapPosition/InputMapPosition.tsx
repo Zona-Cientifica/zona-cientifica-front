@@ -9,6 +9,7 @@ import * as Location from "expo-location";
 import Map from "../Map/Map";
 import styles from "./styles";
 import { Marker, MapPressEvent } from "react-native-maps";
+import { useAuth } from "../../contexts/auth";
 
 type Props = {
     navigation: any
@@ -20,6 +21,8 @@ type Position = {
 }
 
 export default function InputMapPosition({navigation}:Props) {
+    const {signed} = useAuth();
+
     const [currentPosition, setCurrentPosition] = useState<Position>({latitude: 0, longitude: 0});
     const [chosedPosition, setChosedPosition] = useState<Position>({latitude: 0, longitude: 0});
 
@@ -47,9 +50,14 @@ export default function InputMapPosition({navigation}:Props) {
     useEffect(() => {
         getCurrentLocation()
     }, [])
+    
+    function handleSendPage(){
+        navigation.navigate("Login")
+    }
 
     return (
         <>
+            {signed ?
             <View style={styles.container}>
                 <Map
                     initialRegion={{
@@ -77,6 +85,8 @@ export default function InputMapPosition({navigation}:Props) {
                     </Pressable>
                 )}
             </View>
+            : 
+            <Pressable onPress={handleSendPage} style={styles.sendLogin}><Text>Clica aqui para fazer login</Text></Pressable>}
         </>
     );
 }

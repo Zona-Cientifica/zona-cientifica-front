@@ -1,4 +1,5 @@
 import { View, StyleSheet, Image, Text, Pressable } from "react-native";
+import { IMG_PATH } from "../../utils/api";
 import { Entypo } from "@expo/vector-icons";
 
 interface Event {
@@ -10,10 +11,10 @@ interface Event {
 interface Props {
   event: Event;
 }
-export function Card({ event }: Props) {
+export function Card({ event }: Props) { 
   return (
     <View style={styles.card}>
-      <Image style={styles.imgCard} source={{ uri: event.picture }} />
+      <Image style={styles.imgCard} source={{ uri: IMG_PATH + event.picture }} />
       <View style={styles.boxDescription}>
         <Text style={styles.title}>{event.title}</Text>
         <Text style={styles.description}>{event.description}</Text>

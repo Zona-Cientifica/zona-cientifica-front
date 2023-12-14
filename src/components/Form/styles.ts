@@ -19,9 +19,22 @@ const styles = StyleSheet.create({
       height: 50,
       alignSelf: "center",
       justifyContent: "center",
-      backgroundColor: "blue"
+      backgroundColor: "green"
     },
     buttonText: {
+      textAlign: "center"
+    },
+    inputContainer:{
+      marginTop: "5%"
+    },
+    header: {
+      color: "white",
+      fontSize: 20,
+      textAlign: "center"
+    },
+    error: {
+      color: "red",
+      fontSize: 15,
       textAlign: "center"
     }
 })
