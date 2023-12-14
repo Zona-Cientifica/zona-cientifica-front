@@ -19,10 +19,20 @@ import { zodSchema, ICreateEvent } from "../../utils/createEventSchema";
 import styles from "./styles";
 
 type Props = {
-    navigation:any
+    navigation:any,
+    route:any
 }
 
-export default function Form({navigation}:Props) {
+type Params ={
+    position: {
+        latitude:number,
+        longitude:number
+    }
+}
+
+export default function Form({route, navigation}:Props) {
+    const position = route.params?.position;
+    console.log(position);
     const [imagePath, setImagePath] = useState<string[]>([]);
 
     const {control, handleSubmit, formState: {errors}} = useForm<ICreateEvent>({
@@ -36,10 +46,12 @@ export default function Form({navigation}:Props) {
         formData.append("description", event.description);
         formData.append("theme", event.theme);
         formData.append("picture", event.picture);
+        formData.append("latitude", String(position.latitude));
+        formData.append("longitude", String(position.longitude));
 
         const axiosConfig = {headers: {'content-type': 'multipart/form-data'}}
 
-        await api.post("/", formData, axiosConfig);
+        // await api.post("/", formData, axiosConfig);
         navigation.navigate("AllEvents");
     }
 
