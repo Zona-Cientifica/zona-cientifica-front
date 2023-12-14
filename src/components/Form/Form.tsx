@@ -4,9 +4,6 @@ import {
     Text,
     ImageBackground,
     Pressable,
-    Alert,
-    TextInput,
-    KeyboardAvoidingView,
     Image
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -17,12 +14,24 @@ import { InputImage } from "../InputImage/InputImage";
 import { api } from "../../utils/api";
 import { zodSchema, ICreateEvent } from "../../utils/createEventSchema";
 import styles from "./styles";
+import { useAuth } from "../../contexts/auth";
 
 type Props = {
-    navigation:any
+    navigation:any,
+    route:any
 }
 
-export default function Form({navigation}:Props) {
+type Params ={
+    position: {
+        latitude:number,
+        longitude:number
+    }
+}
+
+export default function Form({route, navigation}:Props) {
+    const {user} = useAuth();
+    const position = route.params?.position;
+
     const [imagePath, setImagePath] = useState<string[]>([]);
 
     const {control, handleSubmit, formState: {errors}} = useForm<ICreateEvent>({
@@ -35,11 +44,21 @@ export default function Form({navigation}:Props) {
         formData.append("title", event.title);
         formData.append("description", event.description);
         formData.append("theme", event.theme);
-        formData.append("picture", event.picture);
+        formData.append("date", event.date);
+        formData.append("latitude", String(position.latitude));
+        formData.append("longitude", String(position.longitude));
+        {user && formData.append("userId", user._id)}
+        imagePath.map((uri, index) =>{
+            formData.append("picture", {
+                name: `image-${uri}.jpeg`,
+                type: "image/jpeg",
+                uri: uri
+            } as any)
+        })
 
-        const axiosConfig = {headers: {'content-type': 'multipart/form-data'}}
+        console.log(formData);
 
-        await api.post("/", formData, axiosConfig);
+        const response = await api.post("/event", formData, {headers: {"Content-Type": "multipart/form-data"}});
         navigation.navigate("AllEvents");
     }
 
@@ -51,30 +70,23 @@ export default function Form({navigation}:Props) {
                         source={require("../../assets/backgrounds/color-morph1.png")}
                         style={styles.backgroundImage}
                     >
-                        <Controller
-                            name="title"
-                            control={control}
-                            render={({field}) => (
-                                <InputText
-                                    placeholder="Título"
-                                    value={field.value}
-                                    onChangeText={field.onChange}
-                                />
-                            )}
-                        />
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.header}>Título</Text>
+                            <Controller
+                                name="title"
+                                control={control}
+                                render={({field}) => (
+                                    <InputText
+                                        placeholder="Título"
+                                        value={field.value}
+                                        onChangeText={field.onChange}
+                                    />
+                                )}
+                            />
+                            {errors.title && <Text style={styles.error}>{errors.title.message}</Text>}
+                        </View>
 
-                        <Controller
-                            name="picture"
-                            control={control}
-                            render={({field}) => (
-                                <InputText
-                                    placeholder="Escolha uma imagem"
-                                    value={field.value}
-                                    onChangeText={field.onChange}
-                                />
-                            )}
-                        />
-
+                        <Text style={styles.header}>Descrição</Text>
                         <Controller
                             name="description"
                             control={control}
@@ -86,7 +98,9 @@ export default function Form({navigation}:Props) {
                                 />
                             )}
                         />
+                        {errors.description && <Text style={styles.error}>{errors.description.message}</Text>}
 
+                        <Text style={styles.header}>Tema</Text>
                         <Controller
                             name="theme"
                             control={control}
@@ -98,15 +112,25 @@ export default function Form({navigation}:Props) {
                                 />
                             )}
                         />
+                        {errors.theme && <Text style={styles.error}>{errors.theme.message}</Text>}
 
+                        <Text style={styles.header}>Data(DD/MM/AAAA)</Text>
                         <Controller
-                            name="picture"
+                            name="date"
                             control={control}
                             render={({field}) => (
-                                <InputImage
-                                    setImagePath={setImagePath}
+                                <InputText
+                                    placeholder="Escolha uma data"
+                                    value={field.value}
+                                    onChangeText={field.onChange}
                                 />
                             )}
+                        />
+                        {errors.date && <Text style={styles.error}>{errors.date.message}</Text>}
+                        
+                        <Text style={styles.header}>Imagem:</Text>
+                        <InputImage
+                            setImagePath={setImagePath}
                         />
                         
                         {
