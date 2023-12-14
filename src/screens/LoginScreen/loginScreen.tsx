@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { api } from "../../utils/api";
 import { useState } from "react";
 import { useAuth } from "../../contexts/auth";
 
