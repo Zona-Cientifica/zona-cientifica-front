@@ -31,6 +31,10 @@ export function LoginScreen({ navigation }: any) {
 
   function profile() {
     context.login(email, password);
+    navigation.navigate("Profile", {
+      userEmail: email,
+      userPassword: password,
+    });
   }
 
   return (
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     borderRadius: 10,
     width: "80%",
-    height: 79,
+    height: "10%",
     borderColor: "#ACACAC",
     borderWidth: 1,
     paddingLeft: 14,
@@ -116,8 +120,8 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: 18,
     fontWeight: "900",
-    marginTop: -74,
-    marginLeft: 55,
+    marginTop: "-17%",
+    marginLeft: "13%",
   },
   passwordInput: {
     backgroundColor: "#D9D9D9",
@@ -126,7 +130,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     borderRadius: 10,
     width: "80%",
-    height: 79,
+    height: "10%",
     borderColor: "#ACACAC",
     borderWidth: 1,
     paddingLeft: 14,

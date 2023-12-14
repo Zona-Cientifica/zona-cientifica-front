@@ -7,45 +7,50 @@ import {
   ImageBackground,
 } from "react-native";
 import { api } from "../../utils/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/auth";
 
 export function ProfileScreen({ route, navigation }: any) {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [phone, setPhone] = useState(0);
-  const email = route.params?.userEmail;
-  const password = route.params?.userPassword;
-  function profile() {
-    api
-      .post("/login", {
-        email: email,
-        password: password,
-      })
+  //const password = route.params?.userPassword;
+  const context = useAuth();
+  const email = context.user?.email;
+  async function profile() {
+    await api
+      .post("/getUser", { email: context.user?.email })
       .then((res) => {
         setName(res.data.name);
         setSurname(res.data.apelido);
         setPhone(res.data.telefone);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
   profile();
   function editProfile() {
     navigation.navigate("EditProfile", {
-      userEmail: email,
-      userPassword: password,
+      userEmail: context.user?.email,
+      userPassword: context.user?.password,
     });
   }
   function favorites() {
     navigation.navigate("Favorites", {
-      userEmail: email,
-      userPassword: password,
+      userEmail: context.user?.email,
+      userPassword: context.user?.password,
     });
   }
   function participating() {
     navigation.navigate("Participating", {
-      userEmail: email,
-      userPassword: password,
+      userEmail: context.user?.email,
+      userPassword: context.user?.password,
     });
   }
+  useEffect(() => {
+    profile();
+  }, []);
 
   return (
     <View style={styles.container}>
