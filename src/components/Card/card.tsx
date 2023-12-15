@@ -1,6 +1,6 @@
 import { View, StyleSheet, Image, Text, Pressable } from "react-native";
 import { Entypo } from "@expo/vector-icons";
-import { api } from "../../utils/api";
+import { api, pathImage } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/auth";
 import { useIsFocused } from "@react-navigation/native";
@@ -76,9 +76,12 @@ export function Card({ event }: Props) {
       findFavorites();
     }
   }, [isFocused]);
+
+  console.log(pathImage + event.picture)
+
   return (
     <View style={styles.card}>
-      <Image style={styles.imgCard} source={{ uri: event.picture }} />
+      <Image style={styles.imgCard} source={{ uri: pathImage + event.picture }} />
       <View style={styles.boxDescription}>
         <Text style={styles.title}>{event.title}</Text>
         <Text style={styles.description}>{event.description}</Text>
