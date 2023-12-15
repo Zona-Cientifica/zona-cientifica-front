@@ -5,7 +5,7 @@ import {
   Text,
   FlatList,
 } from "react-native";
-import { Card } from "../../components/Card/card";
+import { CardFavorite } from "../../components/CardFavorite/cardFavorite";
 import { api } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/auth";
@@ -77,7 +77,7 @@ export function FavoritesScreen({ route }: any) {
           <Text style={styles.textFavorite}>Meus favoritos</Text>
           <FlatList
             data={favorites}
-            renderItem={({ item }) => <Card event={item} />}
+            renderItem={({ item }) => <CardFavorite event={item} />}
           />
         </View>
       </ImageBackground>
