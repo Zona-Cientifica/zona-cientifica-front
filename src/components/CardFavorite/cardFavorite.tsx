@@ -3,10 +3,9 @@ import { Entypo } from "@expo/vector-icons";
 import { api } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/auth";
-import { useIsFocused } from "@react-navigation/native";
 
 interface Event {
-  _id: string;
+  id: string;
   title: string;
   picture: string;
   description: string;
@@ -15,67 +14,20 @@ interface Event {
 interface Props {
   event: Event;
 }
-export function Card({ event }: Props) {
+export function CardFavorite({ event }: Props) {
   const context = useAuth();
-  const [favorite, setFavorite] = useState(false);
-  const isFocused = useIsFocused();
 
-  async function findFavorites() {
-    try {
-      api
-        .post("/getFavoriteList", { email: context.user?.email })
-        .then((res) => {
-          const list = res.data.favoriteList;
-          list.map((favorite) => {
-            if (favorite.id === event._id) {
-              setFavorite(true);
-            }
-          });
-        });
-    } catch (error) {
-      console.log("ERRO: " + error);
-    }
-  }
-  async function addFavorite() {
-    try {
-      api.post("/addFavorite", {
-        email: context.user?.email,
-        id: event._id,
-        title: event.title,
-        picture: event.picture,
-        description: event.description,
-        date: event.date,
-      });
-    } catch (error) {
-      console.log("ERRO: " + error);
-    }
-  }
   async function deleteFavorite() {
     try {
       api.post("/deleteFavorite", {
         email: context.user?.email,
-        id: event._id,
+        id: event.id,
       });
     } catch (error) {
       console.log("ERRO: " + error);
     }
   }
-  async function changeFavorite() {
-    if (favorite === true) {
-      deleteFavorite();
-      setFavorite(false);
-    } else {
-      addFavorite();
-      setFavorite(true);
-    }
-  }
 
-  useEffect(() => {
-    if (isFocused) {
-      setFavorite(false);
-      findFavorites();
-    }
-  }, [isFocused]);
   return (
     <View style={styles.card}>
       <Image style={styles.imgCard} source={{ uri: event.picture }} />
@@ -84,15 +36,10 @@ export function Card({ event }: Props) {
         <Text style={styles.description}>{event.description}</Text>
         <Text style={styles.date}>{event.date}</Text>
       </View>
-      {favorite === true ? (
-        <Pressable style={styles.buttonHeart} onPress={changeFavorite}>
-          <Entypo name="heart" size={40} color="#FF4141" />
-        </Pressable>
-      ) : (
-        <Pressable style={styles.buttonHeart} onPress={changeFavorite}>
-          <Entypo name="heart-outlined" size={40} color="#FFF" />
-        </Pressable>
-      )}
+
+      <Pressable style={styles.buttonHeart} onPress={deleteFavorite}>
+        <Entypo name="heart" size={40} color="#FF4141" />
+      </Pressable>
     </View>
   );
 }
