@@ -34,17 +34,17 @@ export default function Form({route, navigation}:Props) {
 
     const [imagePath, setImagePath] = useState<string[]>([]);
 
-    const {control, handleSubmit, formState: {errors}} = useForm<ICreateEvent>({
-        resolver: zodResolver(zodSchema)
+    const {control, handleSubmit, formState: {errors}, reset} = useForm<ICreateEvent>({
+        resolver: zodResolver(zodSchema),
     });
 
-    async function handleCreateEvent(event:ICreateEvent){
+    async function handleCreateEvent(data:ICreateEvent){
         const formData = new FormData();
 
-        formData.append("title", event.title);
-        formData.append("description", event.description);
-        formData.append("theme", event.theme);
-        formData.append("date", event.date);
+        formData.append("title", data.title);
+        formData.append("description", data.description);
+        formData.append("theme", data.theme);
+        formData.append("date", data.date);
         formData.append("latitude", String(position.latitude));
         formData.append("longitude", String(position.longitude));
         {user && formData.append("userId", user._id)}
@@ -56,9 +56,10 @@ export default function Form({route, navigation}:Props) {
             } as any)
         })
 
-        console.log(formData);
-
         const response = await api.post("/event", formData, {headers: {"Content-Type": "multipart/form-data"}});
+
+        reset({title: "", description: "", theme: "", date: ""})
+
         navigation.navigate("AllEvents");
     }
 
@@ -86,6 +87,7 @@ export default function Form({route, navigation}:Props) {
                             {errors.title && <Text style={styles.error}>{errors.title.message}</Text>}
                         </View>
 
+                        <View style={styles.inputContainer}>
                         <Text style={styles.header}>Descrição</Text>
                         <Controller
                             name="description"
@@ -99,7 +101,9 @@ export default function Form({route, navigation}:Props) {
                             )}
                         />
                         {errors.description && <Text style={styles.error}>{errors.description.message}</Text>}
+                        </View>
 
+                        <View style={styles.inputContainer}>
                         <Text style={styles.header}>Tema</Text>
                         <Controller
                             name="theme"
@@ -113,7 +117,9 @@ export default function Form({route, navigation}:Props) {
                             )}
                         />
                         {errors.theme && <Text style={styles.error}>{errors.theme.message}</Text>}
+                        </View>
 
+                        <View style={styles.inputContainer}>
                         <Text style={styles.header}>Data(DD/MM/AAAA)</Text>
                         <Controller
                             name="date"
@@ -127,11 +133,14 @@ export default function Form({route, navigation}:Props) {
                             )}
                         />
                         {errors.date && <Text style={styles.error}>{errors.date.message}</Text>}
+                        </View>
                         
+                        <View style={styles.inputContainer}>
                         <Text style={styles.header}>Imagem:</Text>
                         <InputImage
                             setImagePath={setImagePath}
                         />
+                        </View>
                         
                         {
                             imagePath.map((imgUri) => (

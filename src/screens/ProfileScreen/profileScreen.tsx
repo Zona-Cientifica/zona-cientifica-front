@@ -15,7 +15,7 @@ export function ProfileScreen({ route, navigation }: any) {
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [phone, setPhone] = useState(0);
-  //const password = route.params?.userPassword;
+  
   const context = useAuth();
   const email = context.user?.email;
 

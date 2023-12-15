@@ -4,6 +4,7 @@ import Category from "../../components/Category/Category";
 import { Card } from "../../components/Card/card";
 import { api } from "../../utils/api";
 import { useState, useEffect, useMemo } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 type Events = {
   _id: string;
@@ -54,11 +55,11 @@ export default function AllEventsScreen() {
   // async function findCategorys() {
 
   // }
-
-  useEffect(() => {
+  
+  useFocusEffect(() => {
     findEvents();
     // findCategorys();
-  }, []);
+  });
 
   const filteredContent = useMemo(() => {
     if (filter === "NONE") {
