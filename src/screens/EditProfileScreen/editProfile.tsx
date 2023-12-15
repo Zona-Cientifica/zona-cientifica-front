@@ -5,23 +5,29 @@ import {
   Image,
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { api } from "../../utils/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useForm, Controller, Field, FieldValues } from "react-hook-form";
 
-export function EditProfileScreen({ route }: any) {
+export function EditProfileScreen({ route, navigation }: any) {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [phone, setPhone] = useState("");
   const email = route.params?.userEmail;
-  const password = route.params?.userPassword;
 
-  function edit(){
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  async function getUser(){
     api
-      .post("/login", {
-        email: email,
-        password: password,
+      .post("/getUser", {
+        email: email
       })
       .then((res) => {
         setName(res.data.name);
@@ -29,7 +35,24 @@ export function EditProfileScreen({ route }: any) {
         setPhone(res.data.telefone);
       });
   }
-  edit();
+
+  async function saveUser(data: FieldValues){
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("apelido", data.surname);
+    formData.append("telefone", data.phone);
+    formData.append("email", email);
+
+    const response = await api.post("/editperfil", formData, {headers: {"Content-Type": "multipart/form-data"}})
+
+    navigation.navigate("Profile")
+  }
+
+  useFocusEffect(() => {
+    getUser()
+  })
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -41,40 +64,72 @@ export function EditProfileScreen({ route }: any) {
             style={styles.picture}
             source={require("../../assets/backgrounds/Ellipse1.png")}
           />
-          <TextInput
-            style={styles.inputFullName}
-            defaultValue={name}
-            placeholderTextColor={"#000"}
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, value = name } }) => (
+              <TextInput
+                style={styles.inputFullName}
+                onChangeText={onChange}
+                value={value}
+                placeholderTextColor={"#000"}
+              />
+            )}
+            name="name"
           />
-          <TextInput
-            style={styles.inputName}
-            defaultValue={surname}
-            placeholderTextColor={"#000"}
+          {errors.name && (
+            <Text style={styles.notice}>O nome é necessário</Text>
+          )}
+
+
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, value = surname } }) => (
+              <TextInput
+                style={styles.inputName}
+                onChangeText={onChange}
+                value={value}
+                placeholderTextColor={"#000"}
+              />
+            )}
+            name="surname"
           />
+          {errors.surname && (
+            <Text style={styles.notice}>O apelido é necessário</Text>
+          )}
         </View>
 
         <Text style={styles.contact}>Contato</Text>
 
         <View style={styles.boxContact}>
-          <TextInput
-            style={styles.inputNumber}
-            defaultValue={phone}
-            placeholderTextColor={"#000"}
-          />
-          <TextInput
-            style={styles.inputEmail}
-            defaultValue={email}
-            placeholderTextColor={"#000"}
-          />
-        </View>
+          <Controller
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, value = phone } }) => (
+                <TextInput
+                  style={styles.inputNumber}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholderTextColor={"#000"}
+                />
+              )}
+              name="phone"
+            />
+            {errors.phone && (
+              <Text style={styles.notice}>O telefone é necessário</Text>
+            )}
+            
+            <Text style={styles.inputEmail}>{email}</Text>
+          </View>
 
         <View style={styles.boxButton}>
-          <TouchableOpacity style={styles.buttonSave}>
+          <Pressable style={styles.buttonSave} onPress={handleSubmit(saveUser)}>
             <Image
               source={require("../../assets/backgrounds/check-circle.png")}
               style={styles.imgSave}
             />
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </ImageBackground>
     </View>
@@ -149,7 +204,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   inputEmail: {
-    backgroundColor: "rgba(255, 255, 255, 0.35)",
+    // backgroundColor: "rgba(255, 255, 255, 0.35)",
     borderRadius: 5,
     fontSize: 20,
     fontWeight: "500",
@@ -163,7 +218,7 @@ const styles = StyleSheet.create({
   },
   boxButton: {
     alignItems: "center",
-    marginTop: "45%",
+    marginTop: "10%",
   },
   buttonSave: {
     alignItems: "center",
@@ -177,5 +232,10 @@ const styles = StyleSheet.create({
   imgSave: {
     width: 100,
     height: 30,
+  },
+  notice: {
+    color: "red",
+    marginLeft: "13%",
+    marginBottom: "-4.7%",
   },
 });
