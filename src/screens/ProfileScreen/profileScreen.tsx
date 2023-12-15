@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { api } from "../../utils/api";
 import { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { useAuth } from "../../contexts/auth";
 
 export function ProfileScreen({ route, navigation }: any) {
@@ -17,41 +18,43 @@ export function ProfileScreen({ route, navigation }: any) {
   //const password = route.params?.userPassword;
   const context = useAuth();
   const email = context.user?.email;
-  console.log(email);
-  async function profile() {
+
+  async function profile(email:string | undefined) {
     await api
-      .post("/getUser", { email: context.user?.email })
+      .post("/getUser", { email: email })
       .then((res) => {
         setName(res.data.name);
         setSurname(res.data.apelido);
         setPhone(res.data.telefone);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Erro pegar usuário", error);
       });
   }
-  profile();
+  
+  useFocusEffect(() => {
+    profile(email)
+  })
+
   function editProfile() {
     navigation.navigate("EditProfile", {
       userEmail: context.user?.email,
-      userPassword: context.user?.password,
     });
   }
+
   function favorites() {
     navigation.navigate("Favorites", {
       userEmail: context.user?.email,
       userPassword: context.user?.password,
     });
   }
+  
   function participating() {
     navigation.navigate("Participating", {
       userEmail: context.user?.email,
       userPassword: context.user?.password,
     });
   }
-  useEffect(() => {
-    profile();
-  }, []);
 
   return (
     <View style={styles.container}>
