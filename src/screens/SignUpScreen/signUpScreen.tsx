@@ -52,7 +52,7 @@ export function SignUpScreen({ navigation }: any) {
             render={({ field: { onChange, value } }) => (
               <TextInput
                 style={styles.userInput}
-                placeholder="Seu nome de usuário"
+                placeholder="Seu nome"
                 onChangeText={onChange}
                 value={value}
               />
@@ -62,7 +62,7 @@ export function SignUpScreen({ navigation }: any) {
           {errors.name && (
             <Text style={styles.notice}>O nome é necessário</Text>
           )}
-          <Text style={styles.labelsInput}>Usuário</Text>
+          <Text style={styles.labelsInput}>Nome completo</Text>
 
           <Controller
             control={control}
