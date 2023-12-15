@@ -8,6 +8,7 @@ import {
 import { Card } from "../../components/Card/card";
 import { api } from "../../utils/api";
 import { useState } from "react";
+import { useAuth } from "../../contexts/auth";
 
 /*const array = [
 {
@@ -36,16 +37,23 @@ import { useState } from "react";
 }
 ]
 */
-export function ParticipatingScreen({ route }: any) {
+export function ParticipatingScreen() {
   const [participating, setParticipating] = useState<[]>([]);
-  const email = route.params.userEmail;
-  const password = route.params.userPassword;
-  function findFavorites() {
-    api.post("/login", { email: email, password: password }).then((res) => {
-      setParticipating(res.data.participatingList);
-    });
+  const context = useAuth();
+
+  async function findParticipating() {
+    try {
+      api
+        .post("/getParticipatingList", { email: context.user?.email })
+        .then((res) => {
+          const list = res.data.participatingList;
+          setParticipating(list);
+        });
+    } catch (error) {
+      console.log("ERRO: " + error);
+    }
   }
-  findFavorites();
+  findParticipating();
   return (
     <View style={styles.container}>
       <ImageBackground
