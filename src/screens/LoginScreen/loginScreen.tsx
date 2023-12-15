@@ -11,18 +11,20 @@ import {
 import { api } from "../../utils/api";
 import { useState } from "react";
 import { useAuth } from "../../contexts/auth";
+import { useForm, Controller, FieldValues } from "react-hook-form";
 
 export function LoginScreen({ navigation }: any) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const context = useAuth();
 
-  function handleChangeUsername(event: React.SetStateAction<string>) {
-    setEmail(event);
-  }
-  function handleChangePassword(event: React.SetStateAction<string>) {
-    setPassword(event);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  function onSubmit(data: FieldValues) {
+    context.login(data.email, data.password);
+    profile();
   }
 
   function signUpScreen() {
@@ -30,11 +32,7 @@ export function LoginScreen({ navigation }: any) {
   }
 
   function profile() {
-    context.login(email, password);
-    navigation.navigate("Profile", {
-      userEmail: email,
-      userPassword: password,
-    });
+    navigation.navigate("Profile");
   }
 
   return (
@@ -50,22 +48,44 @@ export function LoginScreen({ navigation }: any) {
             style={styles.logo}
           ></Image>
 
-          <TextInput
-            style={styles.userInput}
-            onChangeText={handleChangeUsername}
-          ></TextInput>
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.userInput}
+                placeholder="Seu e-mail"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="email"
+          />
+          {errors.email && <Text style={styles.notice}>Informe o email</Text>}
           <Text style={styles.labelsInput}>Email</Text>
 
-          <TextInput
-            style={styles.passwordInput}
-            onChangeText={handleChangePassword}
-          ></TextInput>
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Sua senha"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="password"
+          />
+          {errors.password && (
+            <Text style={styles.notice}>Informe a senha</Text>
+          )}
           <Text style={styles.labelsInput}>Senha</Text>
 
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.8}
-            onPress={profile}
+            onPress={handleSubmit(onSubmit)}
           >
             <Text style={styles.buttonInput}>Entrar</Text>
           </TouchableOpacity>
@@ -108,7 +128,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     borderRadius: 10,
     width: "80%",
-    height: "10%",
+    height: 68,
     borderColor: "#ACACAC",
     borderWidth: 1,
     paddingLeft: 14,
@@ -120,8 +140,13 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: 18,
     fontWeight: "900",
-    marginTop: "-17%",
+    marginTop: -65,
     marginLeft: "13%",
+  },
+  notice: {
+    color: "red",
+    marginLeft: "13%",
+    marginBottom: "-4.7%",
   },
   passwordInput: {
     backgroundColor: "#D9D9D9",
@@ -130,7 +155,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     borderRadius: 10,
     width: "80%",
-    height: "10%",
+    height: 68,
     borderColor: "#ACACAC",
     borderWidth: 1,
     paddingLeft: 14,
