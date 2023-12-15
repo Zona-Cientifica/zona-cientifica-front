@@ -14,7 +14,7 @@ import { useForm, Controller, Field, FieldValues } from "react-hook-form";
 
 export function EditProfileScreen({ route, navigation }: any) {
   const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
+  const [userName, setUserName] = useState("");
   const [phone, setPhone] = useState("");
   const email = route.params?.userEmail;
 
@@ -31,8 +31,8 @@ export function EditProfileScreen({ route, navigation }: any) {
       })
       .then((res) => {
         setName(res.data.name);
-        setSurname(res.data.apelido);
-        setPhone(res.data.telefone);
+        setUserName(res.data.userName);
+        setPhone(res.data.phone);
       });
   }
 
@@ -40,8 +40,8 @@ export function EditProfileScreen({ route, navigation }: any) {
     const formData = new FormData();
 
     formData.append("name", data.name);
-    formData.append("apelido", data.surname);
-    formData.append("telefone", data.phone);
+    formData.append("username", data.username);
+    formData.append("phone", data.phone);
     formData.append("email", email);
 
     const response = await api.post("/editperfil", formData, {headers: {"Content-Type": "multipart/form-data"}})
@@ -85,7 +85,7 @@ export function EditProfileScreen({ route, navigation }: any) {
           <Controller
             control={control}
             rules={{ required: true }}
-            render={({ field: { onChange, value = surname } }) => (
+            render={({ field: { onChange, value = userName } }) => (
               <TextInput
                 style={styles.inputName}
                 onChangeText={onChange}
@@ -93,16 +93,17 @@ export function EditProfileScreen({ route, navigation }: any) {
                 placeholderTextColor={"#000"}
               />
             )}
-            name="surname"
+            name="username"
           />
-          {errors.surname && (
-            <Text style={styles.notice}>O apelido é necessário</Text>
+          {errors.username && (
+            <Text style={styles.notice}>O nome de usuário é necessário</Text>
           )}
         </View>
 
         <Text style={styles.contact}>Contato</Text>
 
         <View style={styles.boxContact}>
+
           <Controller
               control={control}
               rules={{ required: true }}
