@@ -6,11 +6,12 @@ import { api } from "../../utils/api";
 import { useState, useEffect, useMemo } from "react";
 
 type Events = {
+  _id: string;
   title: string;
   picture: string;
   description: string;
   date: string;
-  theme: string
+  theme: string;
 };
 
 const category = [
@@ -37,7 +38,6 @@ const category = [
 ];
 
 export default function AllEventsScreen() {
-  
   const [events, setEvents] = useState<Events[]>([]);
   const [filter, setFilter] = useState("NONE");
 
@@ -52,24 +52,24 @@ export default function AllEventsScreen() {
   }
 
   // async function findCategorys() {
-    
+
   // }
-  
+
   useEffect(() => {
     findEvents();
     // findCategorys();
-  }, [])
+  }, []);
 
   const filteredContent = useMemo(() => {
-    if(filter === "NONE"){
+    if (filter === "NONE") {
       return events;
     }
-    return events.filter((item) => item.theme === filter)
-  }, [filter, events])
+    return events.filter((item) => item.theme === filter);
+  }, [filter, events]);
 
-  const handleFilterChange = (filter:string) => {
-    setFilter(filter)
-  }
+  const handleFilterChange = (filter: string) => {
+    setFilter(filter);
+  };
 
   return (
     <>
@@ -83,7 +83,9 @@ export default function AllEventsScreen() {
 
             <FlatList
               data={category}
-              renderItem={({ item }) => <Category category={item} handleFilter={handleFilterChange}/>}
+              renderItem={({ item }) => (
+                <Category category={item} handleFilter={handleFilterChange} />
+              )}
               horizontal
             />
 

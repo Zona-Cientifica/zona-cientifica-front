@@ -7,7 +7,17 @@ import {
 } from "react-native";
 import { Card } from "../../components/Card/card";
 import { api } from "../../utils/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/auth";
+
+type Events = {
+  _id: string;
+  title: string;
+  picture: string;
+  description: string;
+  date: string;
+  theme: string;
+};
 
 /*const array = [
 {
@@ -38,14 +48,25 @@ import { useState } from "react";
 */
 export function FavoritesScreen({ route }: any) {
   const [favorites, setFavorites] = useState<[]>([]);
-  const email = route.params.userEmail;
-  const password = route.params.userPassword;
-  function findFavorites() {
-    api.post("/login", { email: email, password: password }).then((res) => {
-      setFavorites(res.data.favoriteList);
-    });
+  const context = useAuth();
+
+  async function findFavorites() {
+    try {
+      api
+        .post("/getFavoriteList", { email: context.user?.email })
+        .then((res) => {
+          const list = res.data.favoriteList;
+          setFavorites(list);
+        });
+    } catch (error) {
+      console.log("ERRO: " + error);
+    }
   }
   findFavorites();
+
+  useEffect(() => {
+    //findFavorites();
+  }, []);
   return (
     <View style={styles.container}>
       <ImageBackground
