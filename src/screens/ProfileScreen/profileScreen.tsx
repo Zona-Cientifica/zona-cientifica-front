@@ -13,7 +13,7 @@ import { useAuth } from "../../contexts/auth";
 
 export function ProfileScreen({ route, navigation }: any) {
   const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
+  const [userName, setUserName] = useState("");
   const [phone, setPhone] = useState(0);
   //const password = route.params?.userPassword;
   const context = useAuth();
@@ -24,8 +24,8 @@ export function ProfileScreen({ route, navigation }: any) {
       .post("/getUser", { email: email })
       .then((res) => {
         setName(res.data.name);
-        setSurname(res.data.apelido);
-        setPhone(res.data.telefone);
+        setUserName(res.data.userName);
+        setPhone(res.data.phone);
       })
       .catch((error) => {
         console.log("Erro pegar usuário", error);
@@ -68,7 +68,7 @@ export function ProfileScreen({ route, navigation }: any) {
             source={require("../../assets/backgrounds/Ellipse1.png")}
           />
           <Text style={styles.fullName}>{name}</Text>
-          <Text style={styles.firstName}>{surname}</Text>
+          <Text style={styles.firstName}>{userName}</Text>
         </View>
 
         <TouchableOpacity style={styles.buttonEdit} onPress={editProfile}>
