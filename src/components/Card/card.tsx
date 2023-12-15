@@ -3,6 +3,7 @@ import { Entypo } from "@expo/vector-icons";
 import { api } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/auth";
+import { useIsFocused } from "@react-navigation/native";
 
 interface Event {
   _id: string;
@@ -17,6 +18,7 @@ interface Props {
 export function Card({ event }: Props) {
   const context = useAuth();
   const [favorite, setFavorite] = useState(false);
+  const isFocused = useIsFocused();
 
   async function findFavorites() {
     try {
@@ -69,8 +71,11 @@ export function Card({ event }: Props) {
   }
 
   useEffect(() => {
-    findFavorites();
-  }, []);
+    if (isFocused) {
+      setFavorite(false);
+      findFavorites();
+    }
+  }, [isFocused]);
   return (
     <View style={styles.card}>
       <Image style={styles.imgCard} source={{ uri: event.picture }} />
