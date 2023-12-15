@@ -24,8 +24,8 @@ export function Card({ event }: Props) {
         .post("/getFavoriteList", { email: context.user?.email })
         .then((res) => {
           const list = res.data.favoriteList;
-          list.map((id: string) => {
-            if (id === event._id) {
+          list.map((favorite) => {
+            if (favorite.id === event._id) {
               setFavorite(true);
             }
           });
@@ -39,6 +39,10 @@ export function Card({ event }: Props) {
       api.post("/addFavorite", {
         email: context.user?.email,
         id: event._id,
+        title: event.title,
+        picture: event.picture,
+        description: event.description,
+        date: event.date,
       });
     } catch (error) {
       console.log("ERRO: " + error);
