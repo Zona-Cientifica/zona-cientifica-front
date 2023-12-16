@@ -77,10 +77,20 @@ export function EditProfileScreen({ route, navigation }: any) {
             <InputImage
                 setImagePath={setImagePath}
             >
-            <Image
-              style={styles.picture}
-              source={picture ? {uri: pathImage + picture} : require("../../assets/backgrounds/Ellipse1.png")}
-            />
+              {imagePath.length == 0 && (
+                <Image
+                  style={styles.picture}
+                  source={picture ? {uri: pathImage + picture} : require("../../assets/backgrounds/Ellipse1.png")}
+                />
+              )}
+              {imagePath.length > 0 && (
+                imagePath.map((uri) => (
+                  <Image
+                    style={styles.picture}
+                    source={{uri: uri}}
+                  />
+                ))
+              )}
             </InputImage>
 
             <Controller
