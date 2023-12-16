@@ -12,17 +12,18 @@ import { useAuth } from "../../contexts/auth";
 import { useFocusEffect } from "@react-navigation/native";
 
 type Events = {
-  _id: string;
+  id:string;
   title: string;
   picture: string;
   description: string;
   date: string;
   theme: string;
+  location: string;
 };
 
 
-export function FavoritesScreen({ route }: any) {
-  const [favorites, setFavorites] = useState<[]>([]);
+export function FavoritesScreen({navigation,  route }: any) {
+  const [favorites, setFavorites] = useState<Events[]>([]);
   const context = useAuth();
 
   async function findFavorites() {
@@ -52,7 +53,7 @@ export function FavoritesScreen({ route }: any) {
           <Text style={styles.textFavorite}>Meus favoritos</Text>
           <FlatList
             data={favorites}
-            renderItem={({ item }) => <CardFavorite event={item} />}
+            renderItem={({ item }) => <CardFavorite navigation={navigation} event={item} />}
           />
         </View>
       </ImageBackground>
