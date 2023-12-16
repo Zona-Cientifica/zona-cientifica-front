@@ -29,7 +29,7 @@ export function Card({ navigation, event }: Props) {
   const context = useAuth();
   const [favorite, setFavorite] = useState(false);
   const isFocused = useIsFocused();
-  
+
   async function findFavorites() {
     try {
       api
@@ -83,6 +83,7 @@ export function Card({ navigation, event }: Props) {
 
   function eventDetail() {
     navigation.navigate("EventDetail", {
+      eventId: event._id,
       eventPicture: event.picture,
       eventTitle: event.title,
       eventDescription: event.description,
