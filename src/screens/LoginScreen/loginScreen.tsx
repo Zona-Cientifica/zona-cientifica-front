@@ -57,6 +57,7 @@ export function LoginScreen({ navigation }: any) {
                 placeholder="Seu e-mail"
                 onChangeText={onChange}
                 value={value}
+                autoCapitalize="none"
               />
             )}
             name="email"
@@ -73,6 +74,8 @@ export function LoginScreen({ navigation }: any) {
                 placeholder="Sua senha"
                 onChangeText={onChange}
                 value={value}
+                autoCapitalize="none"
+                secureTextEntry
               />
             )}
             name="password"

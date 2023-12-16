@@ -12,6 +12,13 @@ interface Event {
   description: string;
   date: string;
 }
+type Favorite ={
+  id: string;
+  title: string;
+  picture: string;
+  description: string;
+  date: string;
+}
 interface Props {
   event: Event;
 }
@@ -26,7 +33,7 @@ export function Card({ event }: Props) {
         .post("/getFavoriteList", { email: context.user?.email })
         .then((res) => {
           const list = res.data.favoriteList;
-          list.map((favorite) => {
+          list.map((favorite:Favorite) => {
             if (favorite.id === event._id) {
               setFavorite(true);
             }
@@ -88,6 +95,7 @@ export function Card({ event }: Props) {
         <Text style={styles.description}>{event.description}</Text>
         <Text style={styles.date}>{event.date}</Text>
       </View>
+
       {favorite === true ? (
         <Pressable style={styles.buttonHeart} onPress={changeFavorite}>
           <Entypo name="heart" size={40} color="#FF4141" />
