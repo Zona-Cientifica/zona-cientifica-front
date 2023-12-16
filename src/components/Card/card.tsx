@@ -11,18 +11,20 @@ interface Event {
   picture: string;
   description: string;
   date: string;
+  location: string;
 }
-type Favorite ={
+type Favorite = {
   id: string;
   title: string;
   picture: string;
   description: string;
   date: string;
-}
+};
 interface Props {
   event: Event;
+  navigation: any;
 }
-export function Card({ event }: Props) {
+export function Card({ navigation, event }: Props) {
   const context = useAuth();
   const [favorite, setFavorite] = useState(false);
   const isFocused = useIsFocused();
@@ -33,7 +35,7 @@ export function Card({ event }: Props) {
         .post("/getFavoriteList", { email: context.user?.email })
         .then((res) => {
           const list = res.data.favoriteList;
-          list.map((favorite:Favorite) => {
+          list.map((favorite: Favorite) => {
             if (favorite.id === event._id) {
               setFavorite(true);
             }
@@ -77,6 +79,16 @@ export function Card({ event }: Props) {
     }
   }
 
+  function eventDetail() {
+    navigation.navigate("EventDetail", {
+      eventPicture: event.picture,
+      eventTitle: event.title,
+      eventDescription: event.description,
+      eventDate: event.date,
+      eventLocation: event.location,
+    });
+  }
+
   useEffect(() => {
     if (isFocused) {
       setFavorite(false);
@@ -85,27 +97,29 @@ export function Card({ event }: Props) {
   }, [isFocused]);
 
   return (
-    <View style={styles.card}>
-      <Image
-        style={styles.imgCard}
-        source={{ uri: pathImage + event.picture }}
-      />
-      <View style={styles.boxDescription}>
-        <Text style={styles.title}>{event.title}</Text>
-        <Text style={styles.description}>{event.description}</Text>
-        <Text style={styles.date}>{event.date}</Text>
-      </View>
+    <Pressable onPress={eventDetail}>
+      <View style={styles.card}>
+        <Image
+          style={styles.imgCard}
+          source={{ uri: pathImage + event.picture }}
+        />
+        <View style={styles.boxDescription}>
+          <Text style={styles.title}>{event.title}</Text>
+          <Text style={styles.description}>{event.description}</Text>
+          <Text style={styles.date}>{event.date}</Text>
+        </View>
 
-      {favorite === true ? (
-        <Pressable style={styles.buttonHeart} onPress={changeFavorite}>
-          <Entypo name="heart" size={40} color="#FF4141" />
-        </Pressable>
-      ) : (
-        <Pressable style={styles.buttonHeart} onPress={changeFavorite}>
-          <Entypo name="heart-outlined" size={40} color="#FFF" />
-        </Pressable>
-      )}
-    </View>
+        {favorite === true ? (
+          <Pressable style={styles.buttonHeart} onPress={changeFavorite}>
+            <Entypo name="heart" size={40} color="#FF4141" />
+          </Pressable>
+        ) : (
+          <Pressable style={styles.buttonHeart} onPress={changeFavorite}>
+            <Entypo name="heart-outlined" size={40} color="#FFF" />
+          </Pressable>
+        )}
+      </View>
+    </Pressable>
   );
 }
 

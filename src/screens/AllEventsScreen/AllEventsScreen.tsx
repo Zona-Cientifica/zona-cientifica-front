@@ -13,6 +13,7 @@ type Events = {
   description: string;
   date: string;
   theme: string;
+  location: string;
 };
 
 const category = [
@@ -38,7 +39,7 @@ const category = [
   },
 ];
 
-export default function AllEventsScreen() {
+export default function AllEventsScreen({navigation}:any) {
   const [events, setEvents] = useState<Events[]>([]);
   const [filter, setFilter] = useState("NONE");
 
@@ -101,7 +102,7 @@ export default function AllEventsScreen() {
             <View style={styles.events}>
               <FlatList
                 data={filteredContent}
-                renderItem={({ item }) => <Card event={item} />}
+                renderItem={({ item }) => <Card navigation={navigation} event={item}/>}
               />
             </View>
           </View>

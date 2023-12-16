@@ -45,6 +45,7 @@ export default function Form({route, navigation}:Props) {
         formData.append("description", data.description);
         formData.append("theme", data.theme);
         formData.append("date", data.date);
+        formData.append("location", data.location);
         formData.append("latitude", String(position.latitude));
         formData.append("longitude", String(position.longitude));
         {user && formData.append("userId", user._id)}
@@ -133,6 +134,22 @@ export default function Form({route, navigation}:Props) {
                                 )}
                             />
                             {errors.date && <Text style={styles.error}>{errors.date.message}</Text>}
+                        </View>
+
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.header}>Localização</Text>
+                            <Controller
+                                name="location"
+                                control={control}
+                                render={({field}) => (
+                                    <InputText
+                                        placeholder="Localização"
+                                        value={field.value}
+                                        onChangeText={field.onChange}
+                                    />
+                                )}
+                            />
+                            {errors.location && <Text style={styles.error}>{errors.location.message}</Text>}
                         </View>
                         
                         <View style={styles.inputContainer}>
