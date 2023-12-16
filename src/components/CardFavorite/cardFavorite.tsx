@@ -10,11 +10,13 @@ interface Event {
   picture: string;
   description: string;
   date: string;
+  location: string;
 }
 interface Props {
   event: Event;
+  navigation: any;
 }
-export function CardFavorite({ event }: Props) {
+export function CardFavorite({navigation, event }: Props) {
   const context = useAuth();
 
   async function deleteFavorite() {
@@ -27,8 +29,17 @@ export function CardFavorite({ event }: Props) {
       console.log("ERRO: " + error);
     }
   }
-
+  function eventDetail() {
+    navigation.navigate("EventDetail", {
+      eventPicture: event.picture,
+      eventTitle: event.title,
+      eventDescription: event.description,
+      eventDate: event.date,
+      eventLocation: event.location,
+    });
+  }
   return (
+    <Pressable onPress={eventDetail}>
     <View style={styles.card}>
       <Image style={styles.imgCard} source={{ uri: pathImage + event.picture }} />
       <View style={styles.boxDescription}>
@@ -41,6 +52,7 @@ export function CardFavorite({ event }: Props) {
         <Entypo name="heart" size={40} color="#FF4141" />
       </Pressable>
     </View>
+    </Pressable>
   );
 }
 

@@ -19,6 +19,7 @@ type Favorite = {
   picture: string;
   description: string;
   date: string;
+  location: string;
 };
 interface Props {
   event: Event;
@@ -28,7 +29,7 @@ export function Card({ navigation, event }: Props) {
   const context = useAuth();
   const [favorite, setFavorite] = useState(false);
   const isFocused = useIsFocused();
-
+  
   async function findFavorites() {
     try {
       api
@@ -54,6 +55,7 @@ export function Card({ navigation, event }: Props) {
         picture: event.picture,
         description: event.description,
         date: event.date,
+        location: event.location,
       });
     } catch (error) {
       console.log("ERRO: " + error);
