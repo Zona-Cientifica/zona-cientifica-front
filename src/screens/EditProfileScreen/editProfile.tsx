@@ -7,15 +7,19 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
-import { api } from "../../utils/api";
+import { api, pathImage } from "../../utils/api";
 import { useState, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { useForm, Controller, Field, FieldValues } from "react-hook-form";
+import { InputImage } from "../../components/InputImage/InputImage";
+import { ScrollView } from "react-native-gesture-handler";
 
 export function EditProfileScreen({ route, navigation }: any) {
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [phone, setPhone] = useState("");
+  const [picture, setPicture] = useState();
+  const [imagePath, setImagePath] = useState<string[]>([]);
   const email = route.params?.userEmail;
 
   const {
@@ -33,6 +37,7 @@ export function EditProfileScreen({ route, navigation }: any) {
         setName(res.data.name);
         setUserName(res.data.userName);
         setPhone(res.data.phone);
+        setPicture(res.data.picture)
       });
   }
 
@@ -43,6 +48,13 @@ export function EditProfileScreen({ route, navigation }: any) {
     formData.append("username", data.username);
     formData.append("phone", data.phone);
     formData.append("email", email);
+    imagePath.map((uri, index) =>{
+      formData.append("picture", {
+          name: `image-${uri}.jpeg`,
+          type: "image/jpeg",
+          uri: uri
+      } as any)
+  })
 
     const response = await api.post("/editperfil", formData, {headers: {"Content-Type": "multipart/form-data"}})
 
@@ -59,79 +71,84 @@ export function EditProfileScreen({ route, navigation }: any) {
         source={require("../../assets/backgrounds/Rectangle1.png")}
         style={styles.backgroundImage}
       >
-        <View style={styles.boxProfile}>
-          <Image
-            style={styles.picture}
-            source={require("../../assets/backgrounds/Ellipse1.png")}
-          />
-          <Controller
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, value = name } }) => (
-              <TextInput
-                style={styles.inputFullName}
-                onChangeText={onChange}
-                value={value}
-                placeholderTextColor={"#000"}
-              />
-            )}
-            name="name"
-          />
-          {errors.name && (
-            <Text style={styles.notice}>O nome é necessário</Text>
-          )}
+      <ScrollView>
+          <View style={styles.boxProfile}>
 
+            <InputImage
+                setImagePath={setImagePath}
+            >
+            <Image
+              style={styles.picture}
+              source={picture ? {uri: pathImage + picture} : require("../../assets/backgrounds/Ellipse1.png")}
+            />
+            </InputImage>
 
-          <Controller
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, value = userName } }) => (
-              <TextInput
-                style={styles.inputName}
-                onChangeText={onChange}
-                value={value}
-                placeholderTextColor={"#000"}
-              />
-            )}
-            name="username"
-          />
-          {errors.username && (
-            <Text style={styles.notice}>O nome de usuário é necessário</Text>
-          )}
-        </View>
-
-        <Text style={styles.contact}>Contato</Text>
-
-        <View style={styles.boxContact}>
-
-          <Controller
+            <Controller
               control={control}
               rules={{ required: true }}
-              render={({ field: { onChange, value = phone } }) => (
+              render={({ field: { onChange, value = name } }) => (
                 <TextInput
-                  style={styles.inputNumber}
+                  style={styles.inputFullName}
                   onChangeText={onChange}
                   value={value}
-                  placeholderTextColor={"#000"}
                 />
               )}
-              name="phone"
+              name="name"
             />
-            {errors.phone && (
-              <Text style={styles.notice}>O telefone é necessário</Text>
+            {errors.name && (
+              <Text style={styles.notice}>O nome é necessário</Text>
             )}
-            
-            <Text style={styles.inputEmail}>{email}</Text>
+
+
+            <Controller
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, value = userName } }) => (
+                <TextInput
+                  style={styles.inputName}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="username"
+            />
+            {errors.username && (
+              <Text style={styles.notice}>O nome de usuário é necessário</Text>
+            )}
           </View>
 
-        <View style={styles.boxButton}>
-          <Pressable style={styles.buttonSave} onPress={handleSubmit(saveUser)}>
-            <Image
-              source={require("../../assets/backgrounds/check-circle.png")}
-              style={styles.imgSave}
-            />
-          </Pressable>
-        </View>
+          <Text style={styles.contact}>Contato</Text>
+
+          <View style={styles.boxContact}>
+
+            <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, value = phone } }) => (
+                  <TextInput
+                    style={styles.inputNumber}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="phone"
+              />
+              {errors.phone && (
+                <Text style={styles.notice}>O telefone é necessário</Text>
+              )}
+              
+              <Text style={styles.inputEmail}>{email}</Text>
+            </View>
+
+          <View style={styles.boxButton}>
+            <Pressable style={styles.buttonSave} onPress={handleSubmit(saveUser)}>
+              <Image
+                source={require("../../assets/backgrounds/check-circle.png")}
+                style={styles.imgSave}
+              />
+            </Pressable>
+          </View>
+        </ScrollView>
       </ImageBackground>
     </View>
   );
@@ -155,6 +172,7 @@ const styles = StyleSheet.create({
     width: 171,
     height: 171,
     marginBottom: "5%",
+    borderRadius: 100,
   },
   inputFullName: {
     backgroundColor: "rgba(255, 255, 255, 0.35)",
@@ -220,6 +238,7 @@ const styles = StyleSheet.create({
   boxButton: {
     alignItems: "center",
     marginTop: "10%",
+    marginBottom: "10%"
   },
   buttonSave: {
     alignItems: "center",

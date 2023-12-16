@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     input: {
         backgroundColor: "#D9D9D9",
-        marginTop: "15%",
         marginLeft: "auto",
         marginRight: "auto",
         borderRadius: 10,

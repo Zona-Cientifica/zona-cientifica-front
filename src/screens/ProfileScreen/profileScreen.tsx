@@ -6,16 +6,18 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { api } from "../../utils/api";
+import { api, pathImage } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { useAuth } from "../../contexts/auth";
+import { ScrollView } from "react-native-gesture-handler";
 
 export function ProfileScreen({ route, navigation }: any) {
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [phone, setPhone] = useState(0);
-  //const password = route.params?.userPassword;
+  const [picture, setPicture] = useState();
+  
   const context = useAuth();
   const email = context.user?.email;
 
@@ -26,6 +28,7 @@ export function ProfileScreen({ route, navigation }: any) {
         setName(res.data.name);
         setUserName(res.data.userName);
         setPhone(res.data.phone);
+        setPicture(res.data.picture)
       })
       .catch((error) => {
         console.log("Erro pegar usuário", error);
@@ -62,10 +65,11 @@ export function ProfileScreen({ route, navigation }: any) {
         source={require("../../assets/backgrounds/Rectangle1.png")}
         style={styles.backgroundImage}
       >
+        <ScrollView>
         <View style={styles.boxProfile}>
           <Image
             style={styles.picture}
-            source={require("../../assets/backgrounds/Ellipse1.png")}
+            source={picture ? {uri: pathImage + picture} : require("../../assets/backgrounds/Ellipse1.png")}
           />
           <Text style={styles.fullName}>{name}</Text>
           <Text style={styles.firstName}>{userName}</Text>
@@ -93,6 +97,7 @@ export function ProfileScreen({ route, navigation }: any) {
         >
           <Text style={styles.participating}>Participando</Text>
         </TouchableOpacity>
+        </ScrollView>
       </ImageBackground>
     </View>
   );
