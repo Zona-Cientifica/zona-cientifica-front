@@ -9,6 +9,7 @@ import { Card } from "../../components/Card/card";
 import { api } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/auth";
+import { useFocusEffect } from "@react-navigation/native";
 
 /*const array = [
 {
@@ -53,9 +54,9 @@ export function ParticipatingScreen() {
       console.log("ERRO: " + error);
     }
   }
-  useEffect(() => {
+  useFocusEffect(() => {
     findParticipating();
-  }, []);
+  });
   return (
     <View style={styles.container}>
       <ImageBackground

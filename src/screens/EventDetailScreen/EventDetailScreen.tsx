@@ -1,17 +1,87 @@
-import { View, Text, ImageBackground, Image } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "./style";
 
 import { api, pathImage } from "../../utils/api";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/auth";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function EventDetailScreen({ route }: any) {
+  const eventId = route.params?.eventId;
   const eventPicture = route.params?.eventPicture;
   const eventTitle = route.params?.eventTitle;
   const eventDescription = route.params?.eventDescription;
   const eventDate = route.params?.eventDate;
   const eventLocation = route.params?.eventLocation;
+  const [participating, setParticipating] = useState(false);
+  const context = useAuth();
+  const isFocused = useIsFocused();
 
+  async function findParticipating() {
+    try {
+      api
+        .post("/getParticipatingList", { email: context.user?.email })
+        .then((res) => {
+          const list = res.data.participatingList;
+          list.map((participating) => {
+            if (participating.id === eventId) {
+              setParticipating(true);
+            }
+          });
+        });
+    } catch (error) {
+      console.log("ERRO: " + error);
+    }
+  }
+  async function addParticipating() {
+    try {
+      api.post("/addParticipating", {
+        email: context.user?.email,
+        id: eventId,
+        title: eventTitle,
+        picture: eventPicture,
+        description: eventDescription,
+        date: eventDate,
+        location: eventLocation,
+      });
+    } catch (error) {
+      console.log("ERRO: " + error);
+    }
+  }
+  async function deleteParticipating() {
+    try {
+      api.post("/deleteParticipating", {
+        email: context.user?.email,
+        id: eventId,
+      });
+    } catch (error) {
+      console.log("ERRO: " + error);
+    }
+  }
+  async function changeParticipating() {
+    if (participating === true) {
+      deleteParticipating();
+      setParticipating(false);
+    } else {
+      addParticipating();
+      setParticipating(true);
+    }
+  }
+
+  useEffect(() => {
+    if (isFocused) {
+      setParticipating(false);
+      findParticipating();
+    }
+  }, [isFocused]);
   return (
     <>
       <View style={styles.container}>
@@ -45,6 +115,16 @@ export default function EventDetailScreen({ route }: any) {
 
             <Text style={styles.content}>{eventDescription}</Text>
           </View>
+
+          {participating === true ? (
+            <TouchableOpacity onPress={changeParticipating}>
+              <Text>Cancelar Participação</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={changeParticipating}>
+              <Text>Participar</Text>
+            </TouchableOpacity>
+          )}
         </ImageBackground>
       </View>
     </>
