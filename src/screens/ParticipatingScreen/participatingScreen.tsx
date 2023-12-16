@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { Card } from "../../components/Card/card";
 import { api } from "../../utils/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/auth";
 
 /*const array = [
@@ -53,7 +53,9 @@ export function ParticipatingScreen() {
       console.log("ERRO: " + error);
     }
   }
-  findParticipating();
+  useEffect(() => {
+    findParticipating();
+  }, []);
   return (
     <View style={styles.container}>
       <ImageBackground
