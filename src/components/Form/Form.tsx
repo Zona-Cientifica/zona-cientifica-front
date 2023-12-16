@@ -65,12 +65,12 @@ export default function Form({route, navigation}:Props) {
 
     return (
         <>
-            <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
                     <ImageBackground
                         source={require("../../assets/backgrounds/color-morph1.png")}
                         style={styles.backgroundImage}
                     >
+                        <ScrollView contentContainerStyle={styles.scrollView}>
                         <View style={styles.inputContainer}>
                             <Text style={styles.header}>Título</Text>
                             <Controller
@@ -88,77 +88,85 @@ export default function Form({route, navigation}:Props) {
                         </View>
 
                         <View style={styles.inputContainer}>
-                        <Text style={styles.header}>Descrição</Text>
-                        <Controller
-                            name="description"
-                            control={control}
-                            render={({field}) => (
-                                <InputText
-                                    placeholder="Descrição"
-                                    value={field.value}
-                                    onChangeText={field.onChange}
-                                />
-                            )}
-                        />
-                        {errors.description && <Text style={styles.error}>{errors.description.message}</Text>}
+                            <Text style={styles.header}>Descrição</Text>
+                            <Controller
+                                name="description"
+                                control={control}
+                                render={({field}) => (
+                                    <InputText
+                                        placeholder="Descrição"
+                                        value={field.value}
+                                        onChangeText={field.onChange}
+                                    />
+                                )}
+                            />
+                            {errors.description && <Text style={styles.error}>{errors.description.message}</Text>}
                         </View>
 
                         <View style={styles.inputContainer}>
-                        <Text style={styles.header}>Tema</Text>
-                        <Controller
-                            name="theme"
-                            control={control}
-                            render={({field}) => (
-                                <InputText
-                                    placeholder="Escolha um tema"
-                                    value={field.value}
-                                    onChangeText={field.onChange}
-                                />
-                            )}
-                        />
-                        {errors.theme && <Text style={styles.error}>{errors.theme.message}</Text>}
+                            <Text style={styles.header}>Tema</Text>
+                            <Controller
+                                name="theme"
+                                control={control}
+                                render={({field}) => (
+                                    <InputText
+                                        placeholder="Escolha um tema"
+                                        value={field.value}
+                                        onChangeText={field.onChange}
+                                    />
+                                )}
+                            />
+                            {errors.theme && <Text style={styles.error}>{errors.theme.message}</Text>}
                         </View>
 
                         <View style={styles.inputContainer}>
-                        <Text style={styles.header}>Data(DD/MM/AAAA)</Text>
-                        <Controller
-                            name="date"
-                            control={control}
-                            render={({field}) => (
-                                <InputText
-                                    placeholder="Escolha uma data"
-                                    value={field.value}
-                                    onChangeText={field.onChange}
-                                />
-                            )}
-                        />
-                        {errors.date && <Text style={styles.error}>{errors.date.message}</Text>}
+                            <Text style={styles.header}>Data(DD/MM/AAAA)</Text>
+                            <Controller
+                                name="date"
+                                control={control}
+                                render={({field}) => (
+                                    <InputText
+                                        placeholder="Escolha uma data"
+                                        value={field.value}
+                                        onChangeText={field.onChange}
+                                    />
+                                )}
+                            />
+                            {errors.date && <Text style={styles.error}>{errors.date.message}</Text>}
                         </View>
                         
                         <View style={styles.inputContainer}>
-                        <Text style={styles.header}>Imagem:</Text>
-                        <InputImage
-                            setImagePath={setImagePath}
-                        />
+                            <Text style={styles.header}>Imagem:</Text>
+                            <InputImage
+                                setImagePath={setImagePath}
+                            >
+                            {
+                                imagePath.length == 0 && (
+                                    <Image
+                                        style={{width: 150, height: 150, alignSelf: "center"}}
+                                        source={require("../../assets/backgrounds/Ellipse1.png")}
+                                    />
+                                )
+                            }
+                            
+                            {
+                                imagePath.length > 0 && imagePath.map((imgUri) => (
+                                    <Image
+                                        style={{width: "90%", height: 150, alignSelf: "center"}}
+                                        key={imgUri}
+                                        source={ {uri: imgUri} }
+                                    />
+                                ))
+                            }
+                            </InputImage>
                         </View>
                         
-                        {
-                            imagePath.map((imgUri) => (
-                                <Image
-                                    style={{width: 150, height: 150, alignSelf: "center"}}
-                                    key={imgUri}
-                                    source={ {uri: imgUri} }
-                                />
-                            ))
-                        }
-
-
                         <Pressable style={styles.button} onPress={handleSubmit(handleCreateEvent)}>
                             <Text style={styles.buttonText}>Enviar</Text>
                         </Pressable>
+                        </ScrollView>
                     </ImageBackground>
                 </View>
-            </ScrollView>
         </>
     );
 }

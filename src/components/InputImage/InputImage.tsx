@@ -8,9 +8,10 @@ import { useState } from "react";
 
 type Props = {
     setImagePath: Dispatch<SetStateAction<string[]>>;
+    children: React.ReactNode
 }
 
-export function InputImage({setImagePath, ...rest}:Props){
+export function InputImage({setImagePath, children, ...rest}:Props){
     const [images, setImages] = useState<string[]>([]);
 
     async function handlePickImage(){
@@ -39,9 +40,10 @@ export function InputImage({setImagePath, ...rest}:Props){
     return (
         <>
             <Pressable
-                style={[styles.input, {backgroundColor: "red"}]}
                 onPress={handlePickImage}
-            />
+            >
+                {children}
+            </Pressable>
         </>
     )
 }
