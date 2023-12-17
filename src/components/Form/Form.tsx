@@ -181,8 +181,8 @@ export default function Form({route, navigation}:Props) {
                             {
                                 imagePath.length == 0 && (
                                     <Image
-                                        style={{width: 150, height: 150, alignSelf: "center"}}
-                                        source={require("../../assets/backgrounds/Ellipse1.png")}
+                                        style={{width: "90%", height: 190, borderRadius: 10, alignSelf: "center"}}
+                                        source={require("../../assets/backgrounds/missingimage.png")}
                                     />
                                 )
                             }
@@ -190,7 +190,7 @@ export default function Form({route, navigation}:Props) {
                             {
                                 imagePath.length > 0 && imagePath.map((imgUri) => (
                                     <Image
-                                        style={{width: "90%", height: 150, alignSelf: "center"}}
+                                        style={{width: "90%", height: 190, borderRadius: 10, alignSelf: "center"}}
                                         key={imgUri}
                                         source={ {uri: imgUri} }
                                     />

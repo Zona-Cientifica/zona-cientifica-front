@@ -37,6 +37,7 @@ export default function Menu() {
             },
             title: "Entrar",
             headerShown: false,
+            swipeEnabled: false
           }}
         />
         <Drawer.Screen
@@ -48,6 +49,7 @@ export default function Menu() {
             },
             title: "Criar Conta",
             headerShown: false,
+            swipeEnabled: false
           }}
         />
         <Drawer.Screen

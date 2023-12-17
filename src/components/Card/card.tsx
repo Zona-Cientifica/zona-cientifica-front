@@ -37,7 +37,6 @@ export function Card({ navigation, event }: Props) {
         .then((res) => {
           const list = res.data.favoriteList;
           list.map((favorite: Favorite) => {
-            console.log(event);
             if (favorite.id === event._id) {
               setFavorite(true);
             }
