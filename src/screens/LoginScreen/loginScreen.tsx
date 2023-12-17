@@ -7,6 +7,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Alert,
 } from "react-native";
 import { api } from "../../utils/api";
 import { useState } from "react";
@@ -20,7 +21,10 @@ const schema = yup
     email: yup
       .string()
       .required("Informe o e-mail")
-      .matches(/^\b[A-Z0-9._%-]+@[A-Z0-9*-]+\.[A-Z]{2,4}\b$/i, "Formato de e-mail inválido")
+      .matches(
+        /^\b[A-Z0-9._%-]+@[A-Z0-9*-]+\.[A-Z]{2,4}\b$/i,
+        "Formato de e-mail inválido"
+      )
       .nonNullable(),
     password: yup
       .string()
@@ -41,7 +45,12 @@ export function LoginScreen({ navigation }: any) {
 
   function onSubmit(data: FieldValues) {
     context.login(data.email, data.password);
-    profile();
+    console.log(context.user)
+    if (context.user) {
+      profile();
+    } else {
+      Alert.alert("Erro!", "Usuário não encontrado ou dados incorretos.");
+    }
   }
 
   function signUpScreen() {
