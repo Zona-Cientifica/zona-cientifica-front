@@ -6,7 +6,7 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpg", "image/jpeg", "image/png"];
 export const zodSchema = z.object({
     title: z.string().trim().min(1, "Você deve informar um título!"),
     description: z.string().trim().min(1, "Você deve informar o conteúdo!"),
-    theme: z.string().trim().min(1, "Você deve informar o tema do evento!"),
+    theme: z.string().trim().min(1, "Você deve informar a categoria do evento!"),
     date: z.string().trim().min(1, "Você deve informar uma data!"),
     location: z.string().trim().min(1, "Você deve informar uma localização!"),
 })
