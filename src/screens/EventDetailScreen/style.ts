@@ -41,8 +41,7 @@ const styles = StyleSheet.create({
   },
   content: {
     color: "#FFF",
-    fontSize: 18,
-    margin: 20,
+    fontSize: 18
   },
   subContainer: {
     flexDirection: "row",
