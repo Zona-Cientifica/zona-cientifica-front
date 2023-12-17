@@ -9,43 +9,30 @@ import {
 } from "react-native";
 import { api, pathImage } from "../../utils/api";
 import { useState, useEffect } from "react";
-import { useFocusEffect } from "@react-navigation/native";
 import { useForm, Controller, Field, FieldValues } from "react-hook-form";
 import { InputImage } from "../../components/InputImage/InputImage";
 import { ScrollView } from "react-native-gesture-handler";
+import { User } from "../../utils/types/User";
+import { useIsFocused } from "@react-navigation/native";
 
 export function EditProfileScreen({ route, navigation }: any) {
-  const [name, setName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [picture, setPicture] = useState();
+  const [user, setUser] = useState<User>();
   const [imagePath, setImagePath] = useState<string[]>([]);
-  const email = route.params?.userEmail;
+  const email = route.params.userEmail;
+  const isFocused = useIsFocused();
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-
-  async function getUser(){
-    api
-      .post("/getUser", {
-        email: email
-      })
-      .then((res) => {
-        setName(res.data.name);
-        setUserName(res.data.userName);
-        setPhone(res.data.phone);
-        setPicture(res.data.picture)
-      });
-  }
+    reset
+  } = useForm({defaultValues: user});
 
   async function saveUser(data: FieldValues){
     const formData = new FormData();
 
     formData.append("name", data.name);
-    formData.append("username", data.username);
+    formData.append("username", data.userName);
     formData.append("phone", data.phone);
     formData.append("email", email);
     imagePath.map((uri, index) =>{
@@ -61,9 +48,25 @@ export function EditProfileScreen({ route, navigation }: any) {
     navigation.navigate("Profile")
   }
 
-  useFocusEffect(() => {
-    getUser()
-  })
+  async function getUser(){
+    api
+    .post("/getUser", {
+      email: email
+    })
+    .then((res) => {
+      setUser(res.data)
+    })
+  }
+
+  useEffect(() => {
+    if(isFocused){
+      getUser();
+    }
+  }, [isFocused])
+
+  useEffect(() => {
+    reset(user);
+  }, [user])
 
   return (
     <View style={styles.container}>
@@ -71,6 +74,7 @@ export function EditProfileScreen({ route, navigation }: any) {
         source={require("../../assets/backgrounds/Rectangle1.png")}
         style={styles.backgroundImage}
       >
+      {user ? (
       <ScrollView>
           <View style={styles.boxProfile}>
 
@@ -80,23 +84,23 @@ export function EditProfileScreen({ route, navigation }: any) {
               {imagePath.length == 0 && (
                 <Image
                   style={styles.picture}
-                  source={picture ? {uri: pathImage + picture} : require("../../assets/backgrounds/Ellipse1.png")}
+                  source={user.picture ? {uri: pathImage + user.picture} : require("../../assets/backgrounds/Ellipse1.png")}
                 />
               )}
-              {imagePath.length > 0 && (
-                imagePath.map((uri) => (
+              {imagePath.length > 0 && imagePath.map((uri) => (
                   <Image
                     style={styles.picture}
+                    key={uri}
                     source={{uri: uri}}
                   />
                 ))
-              )}
+              }
             </InputImage>
 
             <Controller
               control={control}
               rules={{ required: true }}
-              render={({ field: { onChange, value = name } }) => (
+              render={({ field: { onChange, value } }) => (
                 <TextInput
                   style={styles.inputFullName}
                   onChangeText={onChange}
@@ -113,16 +117,16 @@ export function EditProfileScreen({ route, navigation }: any) {
             <Controller
               control={control}
               rules={{ required: true }}
-              render={({ field: { onChange, value = userName } }) => (
+              render={({ field: { onChange, value } }) => (
                 <TextInput
                   style={styles.inputName}
                   onChangeText={onChange}
                   value={value}
                 />
               )}
-              name="username"
+              name="userName"
             />
-            {errors.username && (
+            {errors.userName && (
               <Text style={styles.notice}>O nome de usuário é necessário</Text>
             )}
           </View>
@@ -134,7 +138,7 @@ export function EditProfileScreen({ route, navigation }: any) {
             <Controller
                 control={control}
                 rules={{ required: true }}
-                render={({ field: { onChange, value = phone } }) => (
+                render={({ field: { onChange, value } }) => (
                   <TextInput
                     style={styles.inputNumber}
                     onChangeText={onChange}
@@ -159,6 +163,9 @@ export function EditProfileScreen({ route, navigation }: any) {
             </Pressable>
           </View>
         </ScrollView>
+        ): (
+          <Text>Usuário n exites</Text>
+        )}
       </ImageBackground>
     </View>
   );
