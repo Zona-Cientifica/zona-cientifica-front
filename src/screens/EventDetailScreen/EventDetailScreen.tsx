@@ -110,21 +110,49 @@ export default function EventDetailScreen({ route }: any) {
             <Text style={styles.info}>{eventLocation}</Text>
           </View>
 
+          {participating === true ? (
+            <TouchableOpacity
+              onPress={changeParticipating}
+              style={{
+                borderColor: "#DFF6FF",
+                borderWidth: 2,
+                borderRadius: 10,
+                paddingTop: 10,
+                paddingBottom: 10,
+                paddingLeft: 18,
+                paddingRight: 18,
+                backgroundColor: "#065F89",
+              }}
+            >
+              <Text style={{ fontSize: 15, fontWeight: "500", color: "#FFF" }}>
+                Cancelar Participação
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={changeParticipating}
+              style={{
+                borderColor: "#DFF6FF",
+                borderWidth: 2,
+                borderRadius: 10,
+                paddingTop: 10,
+                paddingBottom: 10,
+                paddingLeft: 18,
+                paddingRight: 18,
+                backgroundColor: "#D1E0DB",
+              }}
+            >
+              <Text style={{ fontSize: 15, fontWeight: "500" }}>
+                Participar
+              </Text>
+            </TouchableOpacity>
+          )}
+
           <View style={styles.boxDescription}>
             <Text style={styles.subtitle}>Descrição</Text>
 
             <Text style={styles.content}>{eventDescription}</Text>
           </View>
-
-          {participating === true ? (
-            <TouchableOpacity onPress={changeParticipating}>
-              <Text>Cancelar Participação</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={changeParticipating}>
-              <Text>Participar</Text>
-            </TouchableOpacity>
-          )}
         </ImageBackground>
       </View>
     </>
