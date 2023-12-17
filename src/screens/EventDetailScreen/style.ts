@@ -20,11 +20,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   boxDescription: {
-    marginTop: 10,
+    marginTop: 18,
     width: "85%",
     alignItems: "center",
     borderTopColor: "#000",
     borderTopWidth: 2,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5
   },
   subtitle: {
     marginTop: 20,
