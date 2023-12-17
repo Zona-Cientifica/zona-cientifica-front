@@ -4,7 +4,7 @@ import Category from "../../components/Category/Category";
 import { Card } from "../../components/Card/card";
 import { api } from "../../utils/api";
 import { useState, useEffect, useMemo } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 
 type Events = {
   _id: string;
@@ -43,6 +43,8 @@ export default function AllEventsScreen({navigation}:any) {
   const [events, setEvents] = useState<Events[]>([]);
   const [filter, setFilter] = useState("NONE");
 
+  const isFocused = useIsFocused();
+
   async function findEvents() {
     try {
       api.get("/events").then((res) => {
@@ -57,10 +59,10 @@ export default function AllEventsScreen({navigation}:any) {
 
   // }
   
-  useFocusEffect(() => {
+  useEffect(() => {
     findEvents();
     // findCategorys();
-  });
+  }, [isFocused]);
 
   const filteredContent = useMemo(() => {
     if (filter === "NONE") {
@@ -91,9 +93,10 @@ export default function AllEventsScreen({navigation}:any) {
               horizontal
             />
 
-            <Pressable onPress={() => handleFilterChange("NONE")}>
-              <Text>limpar</Text>
+            <Pressable style={styles.clearFilter} onPress={() => handleFilterChange("NONE")}>
+              <Text style={styles.clearFilterText}>Limpar Filtro</Text>
             </Pressable>
+            
           </View>
 
           <View style={styles.boxEvents}>
