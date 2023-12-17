@@ -13,8 +13,26 @@ import React, { useState } from "react";
 import { api } from "../../utils/api";
 import { useAuth } from "../../contexts/auth";
 import { useForm, Controller, Field, FieldValues } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 // Fazer validação de informações
+const schema = yup
+  .object({
+    name: yup.string().required("O nome é necessário").max(70, "Nome grande o suficiente").nonNullable(),
+    email: yup
+      .string()
+      .required("O e-mail é necessário")
+      .matches(/^\b[A-Z0-9._%-]+@[A-Z0-9*-]+\.[A-Z]{2,4}\b$/i, "Formato de e-mail inválido")
+      .nonNullable(),
+    password: yup
+      .string()
+      .required("A senha é necessária")
+      .nonNullable()
+      .min(6, "A senha deve ter mínimo de 6 caracteres"),
+  })
+  .required();
+
 export function SignUpScreen({ navigation }: any) {
   const context = useAuth();
 
@@ -25,7 +43,7 @@ export function SignUpScreen({ navigation }: any) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(schema) });
 
   function onSubmit(data: FieldValues) {
     context.signin(data.name, data.email, data.password);
@@ -60,7 +78,7 @@ export function SignUpScreen({ navigation }: any) {
             name="name"
           />
           {errors.name && (
-            <Text style={styles.notice}>O nome é necessário</Text>
+            <Text style={styles.notice}>{errors.name.message}</Text>
           )}
           <Text style={styles.labelsInput}>Nome completo</Text>
 
@@ -78,13 +96,16 @@ export function SignUpScreen({ navigation }: any) {
             name="email"
           />
           {errors.email && (
-            <Text style={styles.notice}>O email é necessário</Text>
+            <Text style={styles.notice}>{errors.email.message}</Text>
           )}
           <Text style={styles.labelsInput}>E-mail</Text>
 
           <Controller
             control={control}
-            rules={{ required: true }}
+            rules={{
+              required: "A senha é necessária",
+              minLength: 5,
+            }}
             render={({ field: { onChange, value } }) => (
               <TextInput
                 style={styles.passwordInput}
@@ -96,7 +117,7 @@ export function SignUpScreen({ navigation }: any) {
             name="password"
           />
           {errors.password && (
-            <Text style={styles.notice}>A senha é necessária</Text>
+            <Text style={styles.notice}>{errors.password.message}</Text>
           )}
           <Text style={styles.labelsInput}>Senha</Text>
 
