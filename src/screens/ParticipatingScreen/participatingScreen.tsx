@@ -38,7 +38,7 @@ import { useFocusEffect } from "@react-navigation/native";
 }
 ]
 */
-export function ParticipatingScreen() {
+export function ParticipatingScreen({navigation}:any) {
   const [participating, setParticipating] = useState<[]>([]);
   const context = useAuth();
 
@@ -67,7 +67,7 @@ export function ParticipatingScreen() {
           <Text style={styles.textParticipating}>Estou Participando</Text>
           <FlatList
             data={participating}
-            renderItem={({ item }) => <Card event={item} />}
+            renderItem={({ item }) => <Card navigation={navigation} event={item} />}
           />
         </View>
       </ImageBackground>
