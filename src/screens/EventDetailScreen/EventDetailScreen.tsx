@@ -32,7 +32,7 @@ export default function EventDetailScreen({ route }: any) {
         .then((res) => {
           const list = res.data.participatingList;
           list.map((participating) => {
-            if (participating.id === eventId) {
+            if (participating._id === eventId) {
               setParticipating(true);
             }
           });
@@ -45,7 +45,7 @@ export default function EventDetailScreen({ route }: any) {
     try {
       api.post("/addParticipating", {
         email: context.user?.email,
-        id: eventId,
+        _id: eventId,
         title: eventTitle,
         picture: eventPicture,
         description: eventDescription,
@@ -60,7 +60,7 @@ export default function EventDetailScreen({ route }: any) {
     try {
       api.post("/deleteParticipating", {
         email: context.user?.email,
-        id: eventId,
+        _id: eventId,
       });
     } catch (error) {
       console.log("ERRO: " + error);
