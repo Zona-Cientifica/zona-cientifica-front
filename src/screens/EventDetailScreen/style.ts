@@ -3,8 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 0,
-    justifyContent: "center",
+    margin: 0
   },
   backgroundImage: {
     flex: 1,
@@ -41,8 +40,7 @@ const styles = StyleSheet.create({
   },
   content: {
     color: "#FFF",
-    fontSize: 18,
-    margin: 20,
+    fontSize: 18
   },
   subContainer: {
     flexDirection: "row",

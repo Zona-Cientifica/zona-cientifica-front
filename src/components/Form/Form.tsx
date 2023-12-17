@@ -9,12 +9,17 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import { Controller, useForm } from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+
+import Dropdown from "react-native-input-select";
 import { InputText } from "../TextInput/TextInput";
 import { InputImage } from "../InputImage/InputImage";
+
 import { api } from "../../utils/api";
 import { zodSchema, ICreateEvent } from "../../utils/createEventSchema";
-import styles from "./styles";
 import { useAuth } from "../../contexts/auth";
+
+import styles from "./styles";
+import { DropdownProps } from "react-native-input-select/lib/typescript/types/index.types";
 
 type Props = {
     navigation:any,
@@ -60,6 +65,7 @@ export default function Form({route, navigation}:Props) {
         const response = await api.post("/event", formData, {headers: {"Content-Type": "multipart/form-data"}});
 
         reset({title: "", description: "", theme: "", date: ""})
+        setImagePath([]);
 
         navigation.navigate("AllEvents");
     }
@@ -105,23 +111,38 @@ export default function Form({route, navigation}:Props) {
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <Text style={styles.header}>Tema</Text>
+                            <Text style={styles.header}>Categoria</Text>
                             <Controller
                                 name="theme"
                                 control={control}
                                 render={({field}) => (
-                                    <InputText
-                                        placeholder="Escolha um tema"
-                                        value={field.value}
-                                        onChangeText={field.onChange}
-                                    />
+                                    <Dropdown
+                                        placeholder="Selecione uma categoria"
+                                        options={[
+                                            {label: "Tecnologia", value: "Tecnologia"},
+                                            {label: "Saúde", value: "Saúde"},
+                                            {label: "Engenharia", value: "Engenharia"},
+                                            {label: "Educação", value: "Educação"}
+                                        ]}
+                                        dropdownStyle={{
+                                            width: "80%",
+                                            height: 79,
+                                            alignSelf: "center",
+                                            marginBottom: 0
+                                        }}
+                                        selectedValue={field.value}
+                                        onValueChange={(value: DropdownProps) => field.onChange(value)}
+                                        primaryColor={"green"}
+                                    >
+
+                                    </Dropdown>
                                 )}
                             />
                             {errors.theme && <Text style={styles.error}>{errors.theme.message}</Text>}
                         </View>
 
                         <View style={styles.inputContainer}>
-                            <Text style={styles.header}>Data(DD/MM/AAAA)</Text>
+                            <Text style={styles.header}>Data</Text>
                             <Controller
                                 name="date"
                                 control={control}
@@ -160,8 +181,8 @@ export default function Form({route, navigation}:Props) {
                             {
                                 imagePath.length == 0 && (
                                     <Image
-                                        style={{width: 150, height: 150, alignSelf: "center"}}
-                                        source={require("../../assets/backgrounds/Ellipse1.png")}
+                                        style={{width: "90%", height: 190, borderRadius: 10, alignSelf: "center"}}
+                                        source={require("../../assets/backgrounds/missingimage.png")}
                                     />
                                 )
                             }
@@ -169,7 +190,7 @@ export default function Form({route, navigation}:Props) {
                             {
                                 imagePath.length > 0 && imagePath.map((imgUri) => (
                                     <Image
-                                        style={{width: "90%", height: 150, alignSelf: "center"}}
+                                        style={{width: "90%", height: 190, borderRadius: 10, alignSelf: "center"}}
                                         key={imgUri}
                                         source={ {uri: imgUri} }
                                     />

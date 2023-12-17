@@ -13,6 +13,22 @@ const styles = StyleSheet.create({
       boxCategory: {
         marginTop: "10%"
       },
+      clearFilter: {
+        justifyContent: "center",
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderColor: "#DFF6FF",
+        borderRadius: 10,
+        backgroundColor: "#065F89",
+        width: 150,
+        alignSelf: "center",
+        paddingTop: 5,
+        paddingBottom: 5
+      },
+      clearFilterText: {
+        textAlign: "center",
+        fontSize: 16
+      },
       boxEvents: {
         marginTop: '0%',
         marginBottom: 260,

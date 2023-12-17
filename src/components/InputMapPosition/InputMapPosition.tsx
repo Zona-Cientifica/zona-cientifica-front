@@ -49,7 +49,11 @@ export default function InputMapPosition({ navigation }: Props) {
     getCurrentLocation();
   }, []);
 
-  function handleSendPage() {
+  function handleSendAllEvents(){
+    navigation.navigate("AllEvents")
+  }
+
+  function handleSendLogin() {
     navigation.navigate("Login");
   }
 
@@ -58,6 +62,8 @@ export default function InputMapPosition({ navigation }: Props) {
       {signed ? (
         <View style={styles.container}>
           {currentPosition ? (
+            <>
+            <Text style={styles.header}>Escolha o local do evento</Text>
             <Map
               initialRegion={{
                 latitude: currentPosition.latitude,
@@ -78,19 +84,24 @@ export default function InputMapPosition({ navigation }: Props) {
                   />
                 )}
             </Map>
+            </>
           ) : (
-            <Text>mapa sumiu</Text>
+            <Pressable onPress={handleSendAllEvents} style={styles.sendLogin}>
+              <Text style={styles.msg}>Precisamos da sua localização!</Text>
+              <Text style={styles.redirectText}>Clique aqui para reiniciar.</Text>
+            </Pressable>
           )}
 
           {chosedPosition.latitude !== 0 && chosedPosition.longitude && (
-            <Pressable onPress={sendNextPage}>
-              <Text>Próxima página</Text>
+            <Pressable onPress={sendNextPage} style={styles.button}>
+              <Text  style={styles.continue}>Continuar Cadastro</Text>
             </Pressable>
           )}
         </View>
       ) : (
-        <Pressable onPress={handleSendPage} style={styles.sendLogin}>
-          <Text>Clica aqui para fazer login</Text>
+        <Pressable onPress={handleSendLogin} style={styles.sendLogin}>
+          <Text style={styles.msg}>Você deve estar logado para criar eventos!</Text>
+          <Text style={styles.redirectText}>Clique aqui para fazer login</Text>
         </Pressable>
       )}
     </>

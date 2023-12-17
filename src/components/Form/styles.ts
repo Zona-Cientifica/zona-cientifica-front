@@ -19,10 +19,15 @@ const styles = StyleSheet.create({
       height: 50,
       alignSelf: "center",
       justifyContent: "center",
-      backgroundColor: "green"
+      backgroundColor: "#64CCC5",
+      borderWidth: 2,
+      borderColor: "black",
+      borderStyle: "solid",
+      borderRadius: 10
     },
     buttonText: {
-      textAlign: "center"
+      textAlign: "center",
+      fontWeight: "700"
     },
     inputContainer:{
       marginTop: "10%",
@@ -31,11 +36,13 @@ const styles = StyleSheet.create({
     header: {
       color: "white",
       fontSize: 20,
-      textAlign: "center"
+      textAlign: "center",
+      fontWeight: "700"
     },
     error: {
       color: "red",
       fontSize: 15,
+      fontWeight: "700",
       textAlign: "center"
     }
 })
