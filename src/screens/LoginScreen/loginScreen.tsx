@@ -12,6 +12,23 @@ import { api } from "../../utils/api";
 import { useState } from "react";
 import { useAuth } from "../../contexts/auth";
 import { useForm, Controller, FieldValues } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup
+  .object({
+    email: yup
+      .string()
+      .required("Informe o e-mail")
+      .matches(/^\b[A-Z0-9._%-]+@[A-Z0-9*-]+\.[A-Z]{2,4}\b$/i, "Formato de e-mail inválido")
+      .nonNullable(),
+    password: yup
+      .string()
+      .required("Informe a senha")
+      .nonNullable()
+      .min(6, "A senha tem no mínimo 6 caracteres"),
+  })
+  .required();
 
 export function LoginScreen({ navigation }: any) {
   const context = useAuth();
@@ -20,7 +37,7 @@ export function LoginScreen({ navigation }: any) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(schema) });
 
   function onSubmit(data: FieldValues) {
     context.login(data.email, data.password);
@@ -62,7 +79,9 @@ export function LoginScreen({ navigation }: any) {
             )}
             name="email"
           />
-          {errors.email && <Text style={styles.notice}>Informe o email</Text>}
+          {errors.email && (
+            <Text style={styles.notice}>{errors.email.message}</Text>
+          )}
           <Text style={styles.labelsInput}>Email</Text>
 
           <Controller
@@ -81,7 +100,7 @@ export function LoginScreen({ navigation }: any) {
             name="password"
           />
           {errors.password && (
-            <Text style={styles.notice}>Informe a senha</Text>
+            <Text style={styles.notice}>{errors.password.message}</Text>
           )}
           <Text style={styles.labelsInput}>Senha</Text>
 
