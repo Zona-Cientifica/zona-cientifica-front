@@ -90,7 +90,7 @@ export default function EventDetailScreen({ route }: any) {
           source={require("../../assets/backgrounds/color-morph1.png")}
           style={styles.backgroundImage}
         >
-          <ScrollView>
+          <ScrollView contentContainerStyle={{justifyContent: "center"}}>
             <Text style={styles.title}>{eventTitle}</Text>
 
             <Image
@@ -116,6 +116,8 @@ export default function EventDetailScreen({ route }: any) {
               <TouchableOpacity
                 onPress={changeParticipating}
                 style={{
+                  width: 214,
+                  alignSelf: "center",
                   borderColor: "#DFF6FF",
                   borderWidth: 2,
                   borderRadius: 10,
@@ -134,6 +136,8 @@ export default function EventDetailScreen({ route }: any) {
               <TouchableOpacity
                 onPress={changeParticipating}
                 style={{
+                  width: 120,
+                  alignSelf: "center",
                   borderColor: "#DFF6FF",
                   borderWidth: 2,
                   borderRadius: 10,
