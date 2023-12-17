@@ -1,9 +1,11 @@
 export type User = {
   _id: string,
   name: string;
-  apelido: string;
+  userName: string;
+  surname: string;
   email: string;
-  telefone: string;
+  picture: string;
+  phone: string;
   password: string;
   passwordResetToken: string;
   purchaseHistoric: Array<string>;
