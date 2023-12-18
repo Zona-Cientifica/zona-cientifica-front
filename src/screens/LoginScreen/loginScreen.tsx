@@ -45,7 +45,6 @@ export function LoginScreen({ navigation }: any) {
 
   function onSubmit(data: FieldValues) {
     context.login(data.email, data.password);
-    console.log(context.user)
     if (context.user) {
       profile();
     } else {
