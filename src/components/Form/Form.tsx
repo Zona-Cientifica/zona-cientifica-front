@@ -20,6 +20,7 @@ import { useAuth } from "../../contexts/auth";
 
 import styles from "./styles";
 import { DropdownProps } from "react-native-input-select/lib/typescript/types/index.types";
+import {categories} from "../../utils/mock/mockCategories";
 
 type Props = {
     navigation:any,
@@ -118,12 +119,9 @@ export default function Form({route, navigation}:Props) {
                                 render={({field}) => (
                                     <Dropdown
                                         placeholder="Selecione uma categoria"
-                                        options={[
-                                            {label: "Tecnologia", value: "Tecnologia"},
-                                            {label: "Saúde", value: "Saúde"},
-                                            {label: "Engenharia", value: "Engenharia"},
-                                            {label: "Educação", value: "Educação"}
-                                        ]}
+                                        options={categories.map((category) => (
+                                            {label: category.name, value: category.name}
+                                        ))}
                                         dropdownStyle={{
                                             width: "80%",
                                             height: 79,

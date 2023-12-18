@@ -1,22 +1,20 @@
 import { Text, Image, Pressable } from "react-native";
 import styles from "./style";
-
-type Category = {
-  name: string;
-  picture: string;
-};
+import { Category } from "../../utils/types/Category";
 
 type Props = {
   category: Category;
   handleFilter: Function
 };
 
-export default function Category({ category, handleFilter }: Props) {
+export default function CategoryCard({ category, handleFilter }: Props) {
+  const image = category.picture;
+
   return (
     <>
       <Pressable style={styles.categoryCard} onPress={() => handleFilter(category.name)}>
         <Image
-          source={{ uri: category.picture }}
+          source={image}
           style={styles.backgroundImage}
         />
         <Text style={styles.name}>{category.name}</Text>
