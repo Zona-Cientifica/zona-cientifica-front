@@ -155,6 +155,11 @@ export default function Menu() {
           options={{
             title: "Criar evento",
             headerShown: false,
+            drawerLabelStyle: {
+              fontStyle: "normal",
+              fontWeight: "400",
+              fontSize: 24,
+            },
           }}
         />
         <Drawer.Screen
