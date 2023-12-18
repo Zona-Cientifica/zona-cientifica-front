@@ -14,6 +14,7 @@ import { InputImage } from "../../components/InputImage/InputImage";
 import { ScrollView } from "react-native-gesture-handler";
 import { User } from "../../utils/types/User";
 import { useIsFocused } from "@react-navigation/native";
+import MaskInput from "react-native-mask-input";
 
 export function EditProfileScreen({ route, navigation }: any) {
   const [user, setUser] = useState<User>();
@@ -25,48 +26,50 @@ export function EditProfileScreen({ route, navigation }: any) {
     control,
     handleSubmit,
     formState: { errors },
-    reset
-  } = useForm({defaultValues: user});
+    reset,
+  } = useForm({ defaultValues: user });
 
-  async function saveUser(data: FieldValues){
+  async function saveUser(data: FieldValues) {
     const formData = new FormData();
 
     formData.append("name", data.name);
     formData.append("username", data.userName);
     formData.append("phone", data.phone);
     formData.append("email", email);
-    imagePath.map((uri, index) =>{
+    imagePath.map((uri, index) => {
       formData.append("picture", {
-          name: `image-${uri}.jpeg`,
-          type: "image/jpeg",
-          uri: uri
-      } as any)
-  })
+        name: `image-${uri}.jpeg`,
+        type: "image/jpeg",
+        uri: uri,
+      } as any);
+    });
 
-    const response = await api.post("/editperfil", formData, {headers: {"Content-Type": "multipart/form-data"}})
+    const response = await api.post("/editperfil", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
-    navigation.navigate("Profile")
+    navigation.navigate("Profile");
   }
 
-  async function getUser(){
+  async function getUser() {
     api
-    .post("/getUser", {
-      email: email
-    })
-    .then((res) => {
-      setUser(res.data)
-    })
+      .post("/getUser", {
+        email: email,
+      })
+      .then((res) => {
+        setUser(res.data);
+      });
   }
 
   useEffect(() => {
-    if(isFocused){
+    if (isFocused) {
       getUser();
     }
-  }, [isFocused])
+  }, [isFocused]);
 
   useEffect(() => {
     reset(user);
-  }, [user])
+  }, [user]);
 
   return (
     <View style={styles.container}>
@@ -74,75 +77,93 @@ export function EditProfileScreen({ route, navigation }: any) {
         source={require("../../assets/backgrounds/Rectangle1.png")}
         style={styles.backgroundImage}
       >
-      {user ? (
-      <ScrollView>
-          <View style={styles.boxProfile}>
-
-            <InputImage
-                setImagePath={setImagePath}
-            >
-              {imagePath.length == 0 && (
-                <Image
-                  style={styles.picture}
-                  source={user.picture ? {uri: pathImage + user.picture} : require("../../assets/backgrounds/Ellipse1.png")}
-                />
-              )}
-              {imagePath.length > 0 && imagePath.map((uri) => (
+        {user ? (
+          <ScrollView>
+            <View style={styles.boxProfile}>
+              <InputImage setImagePath={setImagePath}>
+                {imagePath.length == 0 && (
                   <Image
                     style={styles.picture}
-                    key={uri}
-                    source={{uri: uri}}
+                    source={
+                      user.picture
+                        ? { uri: pathImage + user.picture }
+                        : require("../../assets/backgrounds/Ellipse1.png")
+                    }
                   />
-                ))
-              }
-            </InputImage>
+                )}
+                {imagePath.length > 0 &&
+                  imagePath.map((uri) => (
+                    <Image
+                      style={styles.picture}
+                      key={uri}
+                      source={{ uri: uri }}
+                    />
+                  ))}
+              </InputImage>
 
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  style={styles.inputFullName}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              )}
-              name="name"
-            />
-            {errors.name && (
-              <Text style={styles.notice}>O nome é necessário</Text>
-            )}
-
-
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  style={styles.inputName}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              )}
-              name="userName"
-            />
-            {errors.userName && (
-              <Text style={styles.notice}>O nome de usuário é necessário</Text>
-            )}
-          </View>
-
-          <Text style={styles.contact}>Contato</Text>
-
-          <View style={styles.boxContact}>
-
-            <Controller
+              <Controller
                 control={control}
                 rules={{ required: true }}
                 render={({ field: { onChange, value } }) => (
                   <TextInput
+                    style={styles.inputFullName}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="name"
+              />
+              {errors.name && (
+                <Text style={styles.notice}>O nome é necessário</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    style={styles.inputName}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="userName"
+              />
+              {errors.userName && (
+                <Text style={styles.notice}>
+                  O nome de usuário é necessário
+                </Text>
+              )}
+            </View>
+
+            <Text style={styles.contact}>Contato</Text>
+
+            <View style={styles.boxContact}>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, value } }) => (
+                  <MaskInput
                     style={styles.inputNumber}
                     onChangeText={onChange}
                     value={value}
+                    mask={[
+                      "(",
+                      /\d/,
+                      /\d/,
+                      ")",
+                      " ",
+                      /\d/,
+                      /\d/,
+                      /\d/,
+                      /\d/,
+                      /\d/,
+                      "-",
+                      /\d/,
+                      /\d/,
+                      /\d/,
+                      /\d/,
+                    ]}
                   />
                 )}
                 name="phone"
@@ -150,20 +171,23 @@ export function EditProfileScreen({ route, navigation }: any) {
               {errors.phone && (
                 <Text style={styles.notice}>O telefone é necessário</Text>
               )}
-              
+
               <Text style={styles.inputEmail}>{email}</Text>
             </View>
 
-          <View style={styles.boxButton}>
-            <Pressable style={styles.buttonSave} onPress={handleSubmit(saveUser)}>
-              <Image
-                source={require("../../assets/backgrounds/check-circle.png")}
-                style={styles.imgSave}
-              />
-            </Pressable>
-          </View>
-        </ScrollView>
-        ): (
+            <View style={styles.boxButton}>
+              <Pressable
+                style={styles.buttonSave}
+                onPress={handleSubmit(saveUser)}
+              >
+                <Image
+                  source={require("../../assets/backgrounds/check-circle.png")}
+                  style={styles.imgSave}
+                />
+              </Pressable>
+            </View>
+          </ScrollView>
+        ) : (
           <Text>Usuário n exites</Text>
         )}
       </ImageBackground>
@@ -201,7 +225,6 @@ const styles = StyleSheet.create({
     paddingRight: "1%",
     width: "70%",
     marginBottom: "3%",
-    textAlign: "center",
   },
   inputName: {
     backgroundColor: "rgba(255, 255, 255, 0.35)",
@@ -232,11 +255,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     color: "#000",
+    paddingTop: "1%",
+    paddingBottom: "1%",
     paddingLeft: "2%",
     paddingRight: "2%",
     marginTop: "2%",
     marginBottom: "3%",
-    width: "50%",
+    width: 170,
     textAlign: "center",
   },
   inputEmail: {
@@ -255,7 +280,7 @@ const styles = StyleSheet.create({
   boxButton: {
     alignItems: "center",
     marginTop: "10%",
-    marginBottom: "10%"
+    marginBottom: "10%",
   },
   buttonSave: {
     alignItems: "center",
